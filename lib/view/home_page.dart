@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:khadamat_behesht_zahra/presentation/google_icons.dart';
-import 'package:khadamat_behesht_zahra/presentation/my_flutter_app_icons.dart';
+import 'package:khadamat_behesht_zahra/presentation/services_icons.dart';
+import 'package:khadamat_behesht_zahra/view/Akhbar.dart';
+import 'package:khadamat_behesht_zahra/view/arzesh_afzoode.dart';
+import 'package:khadamat_behesht_zahra/view/khadamat.dart';
+import 'package:khadamat_behesht_zahra/view/motevafiyan.dart';
+import 'package:khadamat_behesht_zahra/view/peygiri.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,12 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
 
-  int _selectedIndex = 0;
+  int _selectedIndex = 2;
 
   final List<Widget> _children = [
-    ContactPage(),
-    CallLogs(),
-    FavoriteContacts()
+    const ArzeshAfzoode(),
+    const Peygiri(),
+    const Khadamat(),
+    const Motevafiyan(),
+    const Akhbar()
   ];
 
   void _onItemTapped(int index) {
@@ -28,37 +34,33 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        backgroundColor: Colors.green,
-        title: const Text("درخواست آنلاین خدمات بهشت زهرا(س)",
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 10),
-            child: Icon(MyFlutterApp.panorama_wide_angle, color: Colors.black54,),
-          ),
-        ],
-        leading: IconButton(
-          onPressed: (){},
-          icon: const Icon(Google.basket, color: Colors.black54),
-        ),
-      ),
       bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
+        items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.contacts),
-              label: 'Contact',
+              icon: const Icon(Icons.contacts, color: Colors.grey,),
+              label: 'ارزش افزوده',
               backgroundColor: Colors.grey[300]
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.access_time_rounded),
-              label: 'Resent',
+              icon: const Icon(Icons.content_paste_search, color: Colors.grey),
+              label: 'پیگیزی',
               backgroundColor: Colors.grey[300]
           ),
           BottomNavigationBarItem(
-              icon: Icon(Icons.star),
-              label: 'Favorites',
+              icon: const Icon(Services.layers, color: Colors.grey),
+              label: 'خذمات',
+              backgroundColor: Colors.grey[300]
+          ),
+          BottomNavigationBarItem(
+              icon: Image.asset("assets/image/tomb_icon.png",
+                width: 35,
+                color: Colors.grey,),
+              label: 'متوفیان',
+              backgroundColor: Colors.grey[300]
+          ),
+          BottomNavigationBarItem(
+              icon: const Icon(Icons.newspaper, color: Colors.grey),
+              label: 'اخبار',
               backgroundColor: Colors.grey[300]
           ),
         ],

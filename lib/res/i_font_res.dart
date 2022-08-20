@@ -5,4 +5,5 @@
 class FontRes {
   static const String GOOGLE = 'Google';
   static const String MYFLUTTERAPP = 'MyFlutterApp';
+  static const String SERVICES = 'Services';
 }

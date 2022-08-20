@@ -17,6 +17,12 @@
       "css": "panorama_wide_angle",
       "code": 59392,
       "src": "material"
+    },
+    {
+      "uid": "d2c499942f8a7c037d5a94f123eeb478",
+      "css": "layers",
+      "code": 59392,
+      "src": "iconic"
     }
   ]
 }

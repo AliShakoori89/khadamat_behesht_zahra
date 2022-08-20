@@ -66,6 +66,9 @@ flutter:
     - family: MyFlutterApp
       fonts:
         - asset: assets/font/MyFlutterApp.ttf
+    - family: Services
+      fonts:
+        - asset: assets/font/Services.ttf
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -73,6 +76,7 @@ flutter:
 
   assets:
     - assets/font/
+    - assets/image/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
