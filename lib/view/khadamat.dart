@@ -25,6 +25,14 @@ class Khadamat extends StatelessWidget {
           icon: const Icon(Google.basket, color: Colors.black54),
         ),
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: (){
+
+        },
+        backgroundColor: Colors.green,
+        label: const Text('رزرو مراسم'),
+      ),
     );
   }
 }
