@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceDetails extends StatefulWidget {
   
@@ -38,7 +39,37 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   final int _currentIndex=0;
   List cardList = [1,2,3,4,5];
+
   final TextEditingController textFieldController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    loadPrice();
+  }
+
+  void loadPrice() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? action = prefs.getString(name);
+    setState(() {
+      if(action == null){
+        TextEditingController textFieldController = TextEditingController();
+      }else{
+        textFieldController.text = action.toString();
+      }
+    });
+  }
+
+  void writePrice(String content) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(name, content);
+  }
+
+  void deletePrice() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove(name);
+  }
+
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -60,150 +91,178 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Stack(
-              children: [
-                CarouselSlider(
-                  options: CarouselOptions(
-                      height: MediaQuery.of(context).size.height / 4),
-                  items: cardList.map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                            decoration: const BoxDecoration(
-                                color: Colors.amber
-                            ),
-                            child: Text('text $i', style: const TextStyle(fontSize: 16.0),)
-                        );
-                      },
-                    );
-                  }).toList(),
-                ),
-                Positioned(
-                  left: MediaQuery.of(context).size.width / 2.4,
-                  height: MediaQuery.of(context).size.height / 2.2,
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Row(
-                      children: map<Widget>(cardList, (index, url) {
-                        return Container(
-                          width: 5.0,
-                          height: 5.0,
-                          margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: _currentIndex == index
-                                ? Colors.blueAccent
-                                : Colors.grey,
-                          ),
-                        );
-                      }),
-                    ),
-                  ),
-                )
-
-              ],
-            ),
+            imagesCarouselSlider(context),
             const SizedBox(height: 10,),
-            Html(
-              data: description,
-              style: {
-                '#': Style(
-                  fontSize: const FontSize(18),
-                  textAlign: TextAlign.justify,
-                  maxLines: 10,
-                  padding: const EdgeInsets.all(5),
-                  textOverflow: TextOverflow.ellipsis,
-                  direction: TextDirection.rtl,
-                ),
-              },
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20, top: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  const Text('(هر ۶۰ دقیقه)'),
-                  const SizedBox(width: 10,),
-                  const Text('ریال'),
-                  const SizedBox(width: 10,),
-                  SizedBox(
-                    width: 100,
-                    height: 50,
-                    child: TextFormField(
-                      inputFormatters: [
-                        FilteringTextInputFormatter(RegExp('[0-9۰-۹.]'), allow: true)
-                      ],
-                      controller: textFieldController,
-                      decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(width: 1, color: Colors.grey)
-                          )
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 20,),
-                  const Text('هزینه خدمات :',
-                    textDirection: TextDirection.rtl,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700
-                  ),
-                  textAlign: TextAlign.right),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20, top: 50),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(minQty.toString().toPersianDigit(),
-                      textDirection: TextDirection.rtl,
-                      style: const TextStyle(
-                        fontSize: 20,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700
-                      ),
-                      textAlign: TextAlign.right),
-                  const SizedBox(width: 10,),
-                  const Text('حذاقل تعداد قابل سفارش :',
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                        color: Colors.grey,
-                          fontWeight: FontWeight.w700
-                      ),
-                      textAlign: TextAlign.right),
-                ],
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 20),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Text(maxQty.toString().toPersianDigit(),
-                      textDirection: TextDirection.rtl,
-                      style: const TextStyle(
-                          fontSize: 20,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700
-                      ),
-                      textAlign: TextAlign.right),
-                  const SizedBox(width: 10,),
-                  const Text('حذاکثر تعداد قابل سفارش :',
-                      textDirection: TextDirection.rtl,
-                      style: TextStyle(
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w700
-                      ),
-                      textAlign: TextAlign.right),
-                ],
-              ),
-            )
+            serviceDescription(),
+            choiceServicePrice(),
+            minOrder(),
+            maxOrder()
           ],
         ),
       ),
     );
+  }
+
+  Stack imagesCarouselSlider(BuildContext context) {
+    return Stack(
+            children: [
+              CarouselSlider(
+                options: CarouselOptions(
+                    height: MediaQuery.of(context).size.height / 4),
+                items: cardList.map((i) {
+                  return Builder(
+                    builder: (BuildContext context) {
+                      return Container(
+                          width: MediaQuery.of(context).size.width,
+                          margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                          decoration: const BoxDecoration(
+                              color: Colors.amber
+                          ),
+                          child: Text('text $i', style: const TextStyle(fontSize: 16.0),)
+                      );
+                    },
+                  );
+                }).toList(),
+              ),
+              Positioned(
+                left: MediaQuery.of(context).size.width / 2.4,
+                height: MediaQuery.of(context).size.height / 2.2,
+                child: Opacity(
+                  opacity: 0.5,
+                  child: Row(
+                    children: map<Widget>(cardList, (index, url) {
+                      return Container(
+                        width: 5.0,
+                        height: 5.0,
+                        margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentIndex == index
+                              ? Colors.blueAccent
+                              : Colors.grey,
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              )
+
+            ],
+          );
+  }
+
+  Html serviceDescription() {
+    return Html(
+            data: description,
+            style: {
+              '#': Style(
+                fontSize: const FontSize(18),
+                textAlign: TextAlign.justify,
+                maxLines: 10,
+                padding: const EdgeInsets.all(5),
+                textOverflow: TextOverflow.ellipsis,
+                direction: TextDirection.rtl,
+              ),
+            },
+          );
+  }
+
+  Padding choiceServicePrice() {
+    return Padding(
+            padding: const EdgeInsets.only(right: 20, top: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                const Text('(هر ۶۰ دقیقه)'),
+                const SizedBox(width: 10,),
+                const Text('ریال'),
+                const SizedBox(width: 10,),
+                SizedBox(
+                  width: 100,
+                  height: 40,
+                  child: TextFormField(
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      FilteringTextInputFormatter(RegExp('[0-9۰-۹.]'), allow: true)
+                    ],
+                    onChanged: (content){
+                      print(content);
+                      writePrice(content);
+                    },
+                    controller: textFieldController,
+                    decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(width: 1, color: Colors.grey)
+                        ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(width: 1, color: Colors.grey)
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 20,),
+                const Text('هزینه خدمات :',
+                  textDirection: TextDirection.rtl,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700
+                ),
+                textAlign: TextAlign.right),
+              ],
+            ),
+          );
+  }
+
+  Padding minOrder() {
+    return Padding(
+            padding: const EdgeInsets.only(right: 20, top: 50),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(minQty.toString().toPersianDigit(),
+                    textDirection: TextDirection.rtl,
+                    style: const TextStyle(
+                      fontSize: 20,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w700
+                    ),
+                    textAlign: TextAlign.right),
+                const SizedBox(width: 10,),
+                const Text('حذاقل تعداد قابل سفارش :',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                      color: Colors.grey,
+                        fontWeight: FontWeight.w700
+                    ),
+                    textAlign: TextAlign.right),
+              ],
+            ),
+          );
+  }
+
+  Padding maxOrder() {
+    return Padding(
+            padding: const EdgeInsets.only(right: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Text(maxQty.toString().toPersianDigit(),
+                    textDirection: TextDirection.rtl,
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w700
+                    ),
+                    textAlign: TextAlign.right),
+                const SizedBox(width: 10,),
+                const Text('حذاکثر تعداد قابل سفارش :',
+                    textDirection: TextDirection.rtl,
+                    style: TextStyle(
+                        color: Colors.grey,
+                        fontWeight: FontWeight.w700
+                    ),
+                    textAlign: TextAlign.right),
+              ],
+            ),
+          );
   }
 }

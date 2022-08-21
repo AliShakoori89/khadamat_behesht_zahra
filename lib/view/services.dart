@@ -4,12 +4,20 @@ import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/event.dart';
 import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/component/top_carousel.dart';
+import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 import 'package:khadamat_behesht_zahra/presentation/google_icons.dart';
 import 'package:khadamat_behesht_zahra/presentation/my_flutter_app_icons.dart';
 import 'package:khadamat_behesht_zahra/view/service_details.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class Services extends StatelessWidget {
+class Services extends StatefulWidget {
   const Services({Key? key}) : super(key: key);
+
+  @override
+  State<Services> createState() => _ServicesState();
+}
+
+class _ServicesState extends State<Services> {
 
   @override
   Widget build(BuildContext context) {
@@ -45,14 +53,10 @@ class Services extends StatelessWidget {
       ),
       body: BlocBuilder<AllServicesBloc, AllServicesState>(
         builder: (context, state) {
-          print('111111111111111111111111111');
           if (state is GetAllServicesIsLoadingState){
-            print('22222222222222222222222222');
             return const Center(child: CircularProgressIndicator());
           }
           if(state is GetAllServicesIsLoadedState){
-
-            print('3333333333333333333333333333333');
 
             var item = state.getAllServicesItem;
 
@@ -60,50 +64,7 @@ class Services extends StatelessWidget {
               children: [
                 TopCarousel(),
                 const SizedBox(height: 20,),
-                Expanded(
-                  child: GridView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 300,
-                          childAspectRatio: 2 / 2,
-                          crossAxisSpacing: 10,
-                          mainAxisSpacing: 10),
-                      itemCount: item.length,
-                      itemBuilder: (BuildContext ctx, index) {
-                        print(item[index].id);
-                        return InkWell(
-                          onTap: (){
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (context) => ServiceDetails(
-                                    id: item[index].id!,
-                                    name: item[index].name!,
-                                    description: item[index].description!,
-                                    minQty: item[index].minQty!,
-                                    maxQty: item[index].maxQty!,
-                                    price: item[index].price!)
-                                ));
-                          },
-                          child: Column(
-                            children: [
-                              Expanded(
-                                child: Container(
-                                  width: 200,
-                                  height: 200,
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage('https://ebehesht.tehran.ir:8080/api/v1/Service/item/${item[index].id}/image')
-                                      )
-                                  ),
-                                ),
-                              ),
-                              Expanded(child: Text('${item[index].name}')),
-                            ],
-                          ),
-                        );
-                      }),
-                ),
+                allServicesItem(item, context),
               ],
             );
           }
@@ -113,10 +74,55 @@ class Services extends StatelessWidget {
               style: TextStyle(fontSize: 25, color: Colors.white),
             );
           }
-          print('444444444444444444444444444444444');
           return Container();
     }
     )
     );
+  }
+
+  Expanded allServicesItem(List<DataListModel> item, BuildContext context) {
+    return Expanded(
+                child: GridView.builder(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 300,
+                        childAspectRatio: 2 / 2,
+                        crossAxisSpacing: 10,
+                        mainAxisSpacing: 10),
+                    itemCount: item.length,
+                    itemBuilder: (BuildContext ctx, index) {
+                      return InkWell(
+                        onTap: (){
+                          Navigator.of(context).push(
+                              MaterialPageRoute(builder: (context) => ServiceDetails(
+                                  id: item[index].id!,
+                                  name: item[index].name!,
+                                  description: item[index].description!,
+                                  minQty: item[index].minQty!,
+                                  maxQty: item[index].maxQty!,
+                                  price: item[index].price!)
+                              ));
+                        },
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: Container(
+                                width: 200,
+                                height: 200,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    image: DecorationImage(
+                                        image: NetworkImage('https://ebehesht.tehran.ir:8080/api/v1/Service/item/${item[index].id}/image')
+                                    )
+                                ),
+                              ),
+                            ),
+                            Expanded(child: Text('${item[index].name}')),
+                          ],
+                        ),
+                      );
+                    }),
+              );
   }
 }

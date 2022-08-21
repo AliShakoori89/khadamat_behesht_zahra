@@ -7,7 +7,6 @@ class AllServicesRepository{
 
   Future<dynamic> getAllServicesItemRepository() async {
     var item = await _apiHelper.get('/Service/GetAllItems/');
-    print('_________________________________________');
     return item;
   }
 }

@@ -42,6 +42,7 @@ dependencies:
   flutter_bloc: ^7.0.0
   flutter_html: ^2.2.1
   persian_number_utility: ^1.1.2
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:
