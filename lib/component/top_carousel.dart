@@ -3,20 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 class TopCarousel extends StatefulWidget {
-  final List item;
-
-  const TopCarousel({super.key, required this.item});
-
-
   @override
-  _TopCarouselState createState() => _TopCarouselState(item);
+  _TopCarouselState createState() => _TopCarouselState();
 }
 
 class _TopCarouselState extends State<TopCarousel> {
-  final List item;
   int _currentIndex=0;
 
-  _TopCarouselState(this.item);
+  List cardList=[
+    Item1(),
+    Item2(),
+    Item3(),
+    Item4(),
+    Item5(),
+    Item6(),
+  ];
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -46,7 +47,7 @@ class _TopCarouselState extends State<TopCarousel> {
                 });
               },
             ),
-            items: item.map((card) {
+            items: cardList.map((card) {
               return Builder(builder: (BuildContext context) {
                 return Container(
                   height: MediaQuery.of(context).size.height * 0.30,
@@ -68,7 +69,7 @@ class _TopCarouselState extends State<TopCarousel> {
                 child: Opacity(
                   opacity: 0.5,
                   child: Row(
-                    children: map<Widget>(item, (index, url) {
+                    children: map<Widget>(cardList, (index, url) {
                       return Container(
                         width: 5.0,
                         height: 5.0,
@@ -86,6 +87,114 @@ class _TopCarouselState extends State<TopCarousel> {
             )
         )
       ],
+    );
+  }
+}
+
+class Item1 extends StatelessWidget {
+  const Item1({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(25.0),
+          image: DecorationImage(
+              image: new ExactAssetImage('assets/images/1.jpg'),
+              fit: BoxFit.fill
+          )
+      ),
+    );
+  }
+}
+
+class Item2 extends StatelessWidget {
+  const Item2({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(25.0),
+          image: DecorationImage(
+              image: new ExactAssetImage('assets/images/2.jpg'),
+              fit: BoxFit.fill
+          )
+      ),
+    );
+  }
+}
+
+class Item3 extends StatelessWidget {
+  const Item3({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(25.0),
+          image: DecorationImage(
+              image: new ExactAssetImage('assets/images/3.jpg'),
+              fit: BoxFit.fill
+          )
+      ),
+    );
+  }
+}
+
+class Item4 extends StatelessWidget {
+  const Item4({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(25.0),
+          image: DecorationImage(
+              image: new ExactAssetImage('assets/images/4.jpg'),
+              fit: BoxFit.fill
+          )
+      ),
+    );
+  }
+}
+
+class Item5 extends StatelessWidget {
+  const Item5({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(25.0),
+          image: DecorationImage(
+              image: new ExactAssetImage('assets/images/5.jpg'),
+              fit: BoxFit.fill
+          )
+      ),
+    );
+  }
+}
+
+class Item6 extends StatelessWidget {
+  const Item6({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(25.0),
+          image: DecorationImage(
+              image: new ExactAssetImage('assets/images/6.jpg'),
+              fit: BoxFit.fill
+          )
+      ),
     );
   }
 }

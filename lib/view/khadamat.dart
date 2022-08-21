@@ -58,7 +58,7 @@ class Khadamat extends StatelessWidget {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  TopCarousel(item: item),
+                  TopCarousel(),
                 ],
               ),
             );
