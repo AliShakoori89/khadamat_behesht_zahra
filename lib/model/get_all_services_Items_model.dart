@@ -1,22 +1,22 @@
 class ServicesAllItemModel{
 
   ServicesAllItemModel({
-    required this.id,
-    required this.data,
-    required this.success,
-    required this.description,
-    required this.total,
+    this.id,
+    this.data,
+    this.success,
+    this.description,
+    this.total,
   });
 
-  String id;
-  List<DataListModel> data;
-  bool success;
-  String description;
-  int total;
+  String? id;
+  List<DataListModel>? data;
+  bool? success;
+  String? description;
+  int? total;
 
   factory ServicesAllItemModel.fromJson(Map<String, dynamic> json) => ServicesAllItemModel(
     id: json["id"],
-    data: List<DataListModel>.from(json["list"].map((x) => DataListModel.fromJson(x))),
+    data: List<DataListModel>.from(json["data"].map((x) => DataListModel.fromJson(x))),
     success: json["success"],
     description: json["description"],
     total: json["total"],
@@ -24,7 +24,7 @@ class ServicesAllItemModel{
 
   Map<String, dynamic> toJson() => {
     "id": id,
-    "data": List<dynamic>.from(data.map((x) => x.toJson())),
+    "data": List<dynamic>.from(data!.map((x) => x.toJson())),
     "success": success,
     "description": description,
     "total": total,
@@ -33,36 +33,36 @@ class ServicesAllItemModel{
 
 class DataListModel{
 
-  String id;
-  int serviceId;
-  String name;
-  String code;
-  int price;
-  bool isDefault;
-  bool transportCostIncluded;
-  int qty;
-  int minQty;
-  int maxQty;
-  String description;
-  int contractorSharePercent;
-  int unitMeasureId;
-  String unitMeasureName;
+  String? id;
+  int? serviceId;
+  String? name;
+  String? code;
+  int? price;
+  bool? isDefault;
+  bool? transportCostIncluded;
+  int? qty;
+  int? minQty;
+  int? maxQty;
+  String? description;
+  double? contractorSharePercent;
+  int? unitMeasureId;
+  String? unitMeasureName;
 
   DataListModel({
-    required this.id,
-    required this.serviceId,
-    required this.name,
-    required this.code,
-    required this.price,
-    required this.isDefault,
-    required this.transportCostIncluded,
-    required this.qty,
-    required this.minQty,
-    required this.maxQty,
-    required this.description,
-    required this.contractorSharePercent,
-    required this.unitMeasureId,
-    required this.unitMeasureName,
+    this.id,
+    this.serviceId,
+    this.name,
+    this.code,
+    this.price,
+    this.isDefault,
+    this.transportCostIncluded,
+    this.qty,
+    this.minQty,
+    this.maxQty,
+    this.description,
+    this.contractorSharePercent,
+    this.unitMeasureId,
+    this.unitMeasureName,
   });
 
   factory DataListModel.fromJson(Map<String, dynamic> json) => DataListModel(
