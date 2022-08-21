@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:khadamat_behesht_zahra/presentation/services_icons.dart';
 import 'package:khadamat_behesht_zahra/view/Akhbar.dart';
 import 'package:khadamat_behesht_zahra/view/arzesh_afzoode.dart';
-import 'package:khadamat_behesht_zahra/view/khadamat.dart';
+import 'package:khadamat_behesht_zahra/view/services.dart';
 import 'package:khadamat_behesht_zahra/view/motevafiyan.dart';
 import 'package:khadamat_behesht_zahra/view/peygiri.dart';
 
@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
   final List<Widget> _children = [
     const ArzeshAfzoode(),
     const Peygiri(),
-    const Khadamat(),
+    const Services(),
     const Motevafiyan(),
     const Akhbar()
   ];
@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.grey[300]
           ),
           BottomNavigationBarItem(
-              icon: const Icon(Services.layers, color: Colors.grey),
+              icon: const Icon(ServicesIcon.layers, color: Colors.grey),
               label: 'خذمات',
               backgroundColor: Colors.grey[300]
           ),

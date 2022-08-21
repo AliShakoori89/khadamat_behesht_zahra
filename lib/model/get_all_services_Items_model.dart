@@ -15,7 +15,7 @@ class ServicesAllItemModel{
   int? total;
 
   factory ServicesAllItemModel.fromJson(Map<String, dynamic> json) => ServicesAllItemModel(
-    id: json["id"],
+    id: json["\$id"],
     data: List<DataListModel>.from(json["data"].map((x) => DataListModel.fromJson(x))),
     success: json["success"],
     description: json["description"],
@@ -23,7 +23,7 @@ class ServicesAllItemModel{
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+    "\$id": id,
     "data": List<dynamic>.from(data!.map((x) => x.toJson())),
     "success": success,
     "description": description,
@@ -66,7 +66,7 @@ class DataListModel{
   });
 
   factory DataListModel.fromJson(Map<String, dynamic> json) => DataListModel(
-    id: json["id"],
+    id: json["\$id"],
     serviceId: json["serviceId"],
     name: json["name"],
     code: json["code"],
@@ -83,7 +83,7 @@ class DataListModel{
   );
 
   Map<String, dynamic> toJson() => {
-    "id": id,
+    "\$id": id,
     "serviceId": serviceId,
     "name": name,
     "code": code,

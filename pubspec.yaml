@@ -40,6 +40,8 @@ dependencies:
   carousel_slider: ^4.1.1
   equatable: ^2.0.5
   flutter_bloc: ^7.0.0
+  flutter_html: ^2.2.1
+  persian_number_utility: ^1.1.2
 
 dev_dependencies:
   flutter_test:
@@ -81,12 +83,6 @@ flutter:
   assets:
     - assets/font/
     - assets/image/
-    - assets/image/1.jpg
-    - assets/image/2.jpg
-    - assets/image/3.jpg
-    - assets/image/4.jpg
-    - assets/image/5.jpg
-    - assets/image/6.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

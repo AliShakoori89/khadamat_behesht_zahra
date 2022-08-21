@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
@@ -8,15 +7,15 @@ class TopCarousel extends StatefulWidget {
 }
 
 class _TopCarouselState extends State<TopCarousel> {
-  int _currentIndex=0;
+  final int _currentIndex=0;
 
   List cardList=[
-    Item1(),
-    Item2(),
-    Item3(),
-    Item4(),
-    Item5(),
-    Item6(),
+    const Item1(),
+    const Item2(),
+    const Item3(),
+    const Item4(),
+    const Item5(),
+    const Item6(),
   ];
 
   List<T> map<T>(List list, Function handler) {
@@ -31,59 +30,40 @@ class _TopCarouselState extends State<TopCarousel> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Container(
-          child: CarouselSlider(
-            options: CarouselOptions(
-              height: 150.0,
-              autoPlay: true,
-              autoPlayInterval: Duration(seconds: 5),
-              autoPlayAnimationDuration: Duration(milliseconds: 800),
-              autoPlayCurve: Curves.fastOutSlowIn,
-              pauseAutoPlayOnTouch: true,
-              aspectRatio: 2.0,
-              onPageChanged: (index, reason) {
-                setState(() {
-                  _currentIndex = index;
-                });
-              },
-            ),
-            items: cardList.map((card) {
-              return Builder(builder: (BuildContext context) {
-                return Container(
-                  height: MediaQuery.of(context).size.height * 0.30,
-                  width: MediaQuery.of(context).size.width,
-                  child: Card(
-                    elevation: 0,
-                    child: card,
-                    shadowColor: Colors.white,
-                  ),
-                );
-              });
-            }).toList(),
+        CarouselSlider(
+          options: CarouselOptions(
+            height: MediaQuery.of(context).size.height / 4,
           ),
+          items: cardList.map((card) {
+            return Builder(builder: (BuildContext context) {
+              return Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.symmetric(horizontal: 1.0),
+                child: card
+              );
+            });
+          }).toList(),
         ),
         Positioned(
-            height: 280,
-            left: 70,
-            child: Container(
-                child: Opacity(
-                  opacity: 0.5,
-                  child: Row(
-                    children: map<Widget>(cardList, (index, url) {
-                      return Container(
-                        width: 5.0,
-                        height: 5.0,
-                        margin: EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: _currentIndex == index
-                              ? Colors.blueAccent
-                              : Colors.grey,
-                        ),
-                      );
-                    }),
-                  ),
-                )
+          left: MediaQuery.of(context).size.width / 2.4,
+          height: MediaQuery.of(context).size.height / 2.2,
+            child: Opacity(
+              opacity: 0.5,
+              child: Row(
+                children: map<Widget>(cardList, (index, url) {
+                  return Container(
+                    width: 5.0,
+                    height: 5.0,
+                    margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 2.0),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: _currentIndex == index
+                          ? Colors.blueAccent
+                          : Colors.grey,
+                    ),
+                  );
+                }),
+              ),
             )
         )
       ],
@@ -100,8 +80,8 @@ class Item1 extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(25.0),
-          image: DecorationImage(
-              image: new ExactAssetImage('assets/images/1.jpg'),
+          image: const DecorationImage(
+              image: ExactAssetImage('assets/image/1.jpg'),
               fit: BoxFit.fill
           )
       ),
@@ -118,8 +98,8 @@ class Item2 extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(25.0),
-          image: DecorationImage(
-              image: new ExactAssetImage('assets/images/2.jpg'),
+          image: const DecorationImage(
+              image: ExactAssetImage('assets/image/2.jpg'),
               fit: BoxFit.fill
           )
       ),
@@ -136,8 +116,8 @@ class Item3 extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(25.0),
-          image: DecorationImage(
-              image: new ExactAssetImage('assets/images/3.jpg'),
+          image: const DecorationImage(
+              image: ExactAssetImage('assets/image/3.jpg'),
               fit: BoxFit.fill
           )
       ),
@@ -154,8 +134,8 @@ class Item4 extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(25.0),
-          image: DecorationImage(
-              image: new ExactAssetImage('assets/images/4.jpg'),
+          image: const DecorationImage(
+              image: ExactAssetImage('assets/image/4.jpg'),
               fit: BoxFit.fill
           )
       ),
@@ -172,8 +152,8 @@ class Item5 extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(25.0),
-          image: DecorationImage(
-              image: new ExactAssetImage('assets/images/5.jpg'),
+          image: const DecorationImage(
+              image: ExactAssetImage('assets/image/5.jpg'),
               fit: BoxFit.fill
           )
       ),
@@ -190,8 +170,8 @@ class Item6 extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(25.0),
-          image: DecorationImage(
-              image: new ExactAssetImage('assets/images/6.jpg'),
+          image: const DecorationImage(
+              image: ExactAssetImage('assets/image/6.jpg'),
               fit: BoxFit.fill
           )
       ),

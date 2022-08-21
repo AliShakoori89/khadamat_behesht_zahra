@@ -19,8 +19,8 @@
 ///
 import 'package:flutter/widgets.dart';
 
-class Services {
-  Services._();
+class ServicesIcon {
+  ServicesIcon._();
 
   static const _kFontFam = 'Services';
   static const String? _kFontPkg = null;
