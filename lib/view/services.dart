@@ -20,6 +20,18 @@ class Services extends StatefulWidget {
 class _ServicesState extends State<Services> {
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    clearSharedPreferences();
+  }
+
+  void clearSharedPreferences() async {
+  SharedPreferences preferences = await SharedPreferences.getInstance();
+  await preferences.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     final allServicesBloc = BlocProvider.of<AllServicesBloc>(context);
