@@ -39,10 +39,13 @@ dependencies:
   http: ^0.13.5
   carousel_slider: ^4.1.1
   equatable: ^2.0.5
-  flutter_bloc: ^7.0.0
+  flutter_bloc: 8.1.1
   flutter_html: ^2.2.1
   persian_number_utility: ^1.1.2
   shared_preferences: ^2.0.15
+  flutter_no_internet_widget: ^0.0.6+13
+  sqflite: ^2.0.3+1
+  path_provider: ^2.0.11
 
 dev_dependencies:
   flutter_test:

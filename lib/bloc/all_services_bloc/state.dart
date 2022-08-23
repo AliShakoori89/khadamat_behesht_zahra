@@ -1,37 +1,36 @@
 import 'package:equatable/equatable.dart';
 import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 
+enum AllServicesStatus { initial, success, error, loading }
+
+extension AllServicesStatusX on AllServicesStatus {
+  bool get isInitial => this == AllServicesStatus.initial;
+  bool get isSuccess => this == AllServicesStatus.success;
+  bool get isError => this == AllServicesStatus.error;
+  bool get isLoading => this == AllServicesStatus.loading;
+}
+
 class AllServicesState extends Equatable {
-  @override
 
-  List<Object> get props => throw[];
-}
+  const AllServicesState({
+    this.status = AllServicesStatus.initial,
+    List<DataListModel>? allServices,
+  }): allServices = allServices ?? const [];
 
-
-class GetAllServicesInitialState extends AllServicesState {}
-
-class GetAllServicesIsLoadingState extends AllServicesState {
-  late String message;
-
-  GetAllServicesIsLoadingState({required String message});
-}
-
-class GetAllServicesIsLoadedState extends AllServicesState{
-
-  final allServicesItem;
-
-  GetAllServicesIsLoadedState(this.allServicesItem);
-
-  List<DataListModel> get getAllServicesItem => allServicesItem;
-
+  final AllServicesStatus status;
+  final List<DataListModel> allServices;
 
   @override
-  List<Object> get props => [allServicesItem];
-}
+  // TODO: implement props
+  List<Object> get props => [status, allServices];
 
-class GetAllServicesIsNotLoadedState extends AllServicesState {
-  late String error;
-
-  GetAllServicesIsNotLoadedState({required String error});
-
+  AllServicesState copyWith({
+    AllServicesStatus? status,
+    List<DataListModel>? allServices
+  }) {
+    return AllServicesState(
+      status: status ?? this.status,
+      allServices: allServices ?? this.allServices,
+    );
+  }
 }

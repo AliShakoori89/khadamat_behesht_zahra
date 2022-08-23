@@ -1,34 +1,39 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/event.dart';
 import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/state.dart';
+import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
+import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
-import 'package:http/http.dart' as http;
+import 'package:khadamat_behesht_zahra/repository/save_data_repository.dart';
 
-class AllServicesBloc extends Bloc<AllServicesItemEvent, AllServicesState>{
 
-  AllServicesRepository allServicesRepository;
+class AllServicesBloc extends Bloc<AllServicesItemEvent, AllServicesState> {
+  ServicesRepository allServicesRepository;
 
-  AllServicesBloc(this.allServicesRepository) : super(GetAllServicesInitialState());
+  AllServicesBloc(this.allServicesRepository) : super(const AllServicesState()){
+    on<GetAllServicesItemEvent>(_mapGetAllServicesItemEventToState);
+  }
 
-  @override
-  Stream<AllServicesState> mapEventToState(AllServicesItemEvent event) async*{
-    if(event is GetAllServicesItemEvent){
-      yield GetAllServicesIsLoadingState(message: 'Loading products');
-      final response = await allServicesRepository.getAllServicesItemRepository();
-      if (response is http.Response) {
-        if (response.statusCode == 200 || response.statusCode == 201) {
-          List<DataListModel>? allServicesItem =
-              ServicesAllItemModel.fromJson(json.decode(response.body)).data;
-          yield GetAllServicesIsLoadedState(allServicesItem);
-        } else {
-          yield GetAllServicesIsNotLoadedState(error: response.body);
-        }
-      } else if (response is String) {
-        yield GetAllServicesIsNotLoadedState(error: response);
-      }
+  void _mapGetAllServicesItemEventToState(
+      GetAllServicesItemEvent event, Emitter<AllServicesState> emit) async {
+
+    final response = await allServicesRepository.getAllServicesItemRepository();
+
+    try {
+      emit(state.copyWith(status: AllServicesStatus.loading));
+      List<DataListModel>? allServicesItem =
+          ServicesAllItemModel.fromJson(json.decode(response.body)).data;
+      emit(
+        state.copyWith(
+          status: AllServicesStatus.success,
+          allServices: allServicesItem,
+        ),
+      );
+    } catch (error) {
+      emit(state.copyWith(status: AllServicesStatus.error));
     }
   }
 }

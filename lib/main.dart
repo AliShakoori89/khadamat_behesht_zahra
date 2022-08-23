@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
 import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
+import 'package:khadamat_behesht_zahra/repository/save_data_repository.dart';
 import 'package:khadamat_behesht_zahra/view/home_page.dart';
 
 void main() {
+  // Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }
 
@@ -22,13 +26,24 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
             create: (BuildContext context) =>
-                AllServicesBloc(AllServicesRepository())),
+                AllServicesBloc(ServicesRepository())),
+        BlocProvider(
+            create: (BuildContext context) =>
+                SaveServicesBloc(ServicesRepository())),
       ],
-      child: const MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        home: HomePage(),
-      ),
+      child:
+      // InternetWidget(
+        // offline: MaterialApp(
+        //   home: Container(
+        //   ),
+        // ),
+        // online:
+        const MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          home: HomePage(),
+        ),
+      // ),
     );
   }
 }
