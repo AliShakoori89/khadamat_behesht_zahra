@@ -12,8 +12,9 @@ class DataBaseHelper{
   static const _databaseVersion = 1;
   static const table = 'my_table';
   static const columnId = 'id';
-  static const columnImagePath = 'imagePath';
   static const columnName = 'name';
+  static const columnImagePath = 'imagePath';
+
 
   DataBaseHelper._privateConstructor();
 
@@ -40,25 +41,26 @@ class DataBaseHelper{
     );
   }
 
-  Future<bool> saveSarviceIemToDatabase(SaveToDataBaseModel saveToDataBaseModel) async {
+  Future<bool> saveServiceIemToDatabase(ServicesDataBaseModel saveToDataBaseModel) async {
     var dbServicesItem = await database;
     await dbServicesItem.insert (
-        SaveToDataBaseModel.TABLENAME,saveToDataBaseModel.toJson(),
+        table, saveToDataBaseModel.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);
     return true;
   }
 
-  Future<List<SaveToDataBaseModel>> getAllMedicines() async {
+  Future<List<ServicesDataBaseModel>> getAllMedicines() async {
     print('111111');
     var dbServicesItem = await database;
     print('222222');
-    var listMap = await dbServicesItem
+    List listMap = await dbServicesItem
         .rawQuery('SELECT * FROM my_table');
     print('33333');
-    var listServicesDatabase = <SaveToDataBaseModel>[];
+    var listServicesDatabase = <ServicesDataBaseModel>[];
     print('444444');
     for (Map<String, dynamic> m in listMap) {
-      listServicesDatabase.add(SaveToDataBaseModel.fromJson(m));
+      listServicesDatabase.add(ServicesDataBaseModel.fromJson(m));
+      print(m);
     }
     print('____________________________________________-');
     print(listServicesDatabase);

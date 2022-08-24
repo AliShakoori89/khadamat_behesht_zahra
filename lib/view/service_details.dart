@@ -9,21 +9,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class ServiceDetails extends StatefulWidget {
   
-  late String id;
-  late String name;
-  late String description;
-  late int minQty;
-  late int maxQty;
-  late int price;
+  String? id;
+  String? name;
+  String? description;
+  int? minQty;
+  int? maxQty;
+  int? price;
 
 
   ServiceDetails({Key? key,
-    required this.id,
-    required this.name,
-    required this.description,
-    required this.minQty,
-    required this.maxQty,
-    required this.price}) : super(key: key);
+    this.id,
+    this.name,
+    this.description,
+    this.minQty,
+    this.maxQty,
+    this.price}) : super(key: key);
 
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState(
@@ -32,12 +32,12 @@ class ServiceDetails extends StatefulWidget {
 
 class _ServiceDetailsState extends State<ServiceDetails> {
 
-  late String id;
-  late String name;
-  late String description;
-  late int minQty;
-  late int maxQty;
-  late int price;
+  String? id;
+  String? name;
+  String? description;
+  int? minQty;
+  int? maxQty;
+  int? price;
 
   final int _currentIndex=0;
   List cardList = [1,2,3,4,5];
@@ -52,7 +52,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   void loadPrice() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? action = prefs.getString(name);
+    final String? action = prefs.getString(name!);
     setState(() {
       if(action == null){
         TextEditingController textFieldController = TextEditingController();
@@ -64,12 +64,12 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   void writePrice(String content) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(name, content);
+    await prefs.setString(name!, content);
   }
 
   void deletePrice() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove(name);
+    await prefs.remove(name!);
   }
 
 
@@ -88,7 +88,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       appBar: AppBar(
         backgroundColor: Colors.green,
         centerTitle: true,
-        title: Text(name),
+        title: Text(name!),
       ),
       body: SingleChildScrollView(
         child: Column(

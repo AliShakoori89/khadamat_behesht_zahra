@@ -10,24 +10,22 @@ class ServicesRepository{
   final ApiBaseHelper _apiHelper = ApiBaseHelper();
   final DataBaseHelper helper= DataBaseHelper();
 
-  Future<dynamic> getAllServicesItemRepository() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        var item = await _apiHelper.get('/Service/GetAllItems/');
-        return item;
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      return await helper.getAllMedicines();
-    }
-
+  Future<dynamic> getAllServicesItemFromNetworkRepository() async {
+    print('connected');
+    var item = await _apiHelper.get('/Service/GetAllItems/');
+    print(item);
+    return item;
   }
 
-  Future<bool> saveServicesItemRepository(SaveToDataBaseModel saveToDataBaseModel) async {
+  Future<List<ServicesDataBaseModel>> getAllServicesItemFromDatabaseRepository() async {
+    var item = await helper.getAllMedicines();
+    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   '+item.toString());
+    return item;
+  }
+
+  Future<bool> saveServicesItemRepository(ServicesDataBaseModel saveToDataBaseModel) async {
     print('save save save save save save ');
-    return await helper.saveSarviceIemToDatabase(saveToDataBaseModel);
+    return await helper.saveServiceIemToDatabase(saveToDataBaseModel);
   }
 
   // Future<List<SaveToDataBaseModel>> getAllServicesFromDatabaseRepo() async {

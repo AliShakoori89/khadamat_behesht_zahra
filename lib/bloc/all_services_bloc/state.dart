@@ -15,14 +15,14 @@ class AllServicesState extends Equatable {
   const AllServicesState({
     this.status = AllServicesStatus.initial,
     List<DataListModel>? allServices,
-  }): allServices = allServices ?? const [];
+  }): allServicesFromNetwork = allServices ?? const [];
 
   final AllServicesStatus status;
-  final List<DataListModel> allServices;
+  final List<DataListModel> allServicesFromNetwork;
 
   @override
   // TODO: implement props
-  List<Object> get props => [status, allServices];
+  List<Object> get props => [status, allServicesFromNetwork];
 
   AllServicesState copyWith({
     AllServicesStatus? status,
@@ -30,7 +30,7 @@ class AllServicesState extends Equatable {
   }) {
     return AllServicesState(
       status: status ?? this.status,
-      allServices: allServices ?? this.allServices,
+      allServices: allServices ?? this.allServicesFromNetwork,
     );
   }
 }

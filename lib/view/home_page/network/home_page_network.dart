@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:khadamat_behesht_zahra/presentation/services_icons.dart';
 import 'package:khadamat_behesht_zahra/view/Akhbar.dart';
 import 'package:khadamat_behesht_zahra/view/arzesh_afzoode.dart';
-import 'package:khadamat_behesht_zahra/view/services.dart';
+import 'package:khadamat_behesht_zahra/view/home_page/network/services_from_network.dart';
 import 'package:khadamat_behesht_zahra/view/motevafiyan.dart';
 import 'package:khadamat_behesht_zahra/view/peygiri.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class HomePageNetwork extends StatefulWidget {
+  const HomePageNetwork({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePageNetwork> createState() => _HomePageNetworkState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageNetworkState extends State<HomePageNetwork> {
 
   int _selectedIndex = 2;
 
   final List<Widget> _children = [
     const ArzeshAfzoode(),
     const Peygiri(),
-    const Services(),
+    const ServicesFromNetwork(),
     const Motevafiyan(),
     const Akhbar()
   ];

@@ -1,6 +1,6 @@
-class SaveToDataBaseModel{
+class ServicesDataBaseModel{
 
-  SaveToDataBaseModel({
+  ServicesDataBaseModel({
     this.id,
     this.name,
     this.imagePath,
@@ -8,11 +8,11 @@ class SaveToDataBaseModel{
 
   static const String TABLENAME = "my_table";
 
-  String? id;
+  int? id;
   String? name;
   String? imagePath;
 
-  factory SaveToDataBaseModel.fromJson(Map<String, dynamic> json) => SaveToDataBaseModel(
+  factory ServicesDataBaseModel.fromJson(Map<String, dynamic> json) => ServicesDataBaseModel(
     id: json["id"],
     name: json["name"],
     imagePath: json["imagePath"],

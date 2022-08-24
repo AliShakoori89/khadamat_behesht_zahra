@@ -8,7 +8,6 @@ import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
-import 'package:khadamat_behesht_zahra/repository/save_data_repository.dart';
 
 
 class SaveServicesBloc extends Bloc<ServiceEvent, ServicesState> {
@@ -24,6 +23,7 @@ class SaveServicesBloc extends Bloc<ServiceEvent, ServicesState> {
 
     try {
       emit(state.copyWith(status: ServicesStatus.loading));
+      print('************************************    '+event.service.name.toString());
       await allServicesRepository.saveServicesItemRepository(event.service);
       emit(
         state.copyWith(
@@ -39,11 +39,11 @@ class SaveServicesBloc extends Bloc<ServiceEvent, ServicesState> {
       FetchServicesItemFromDatabaseEvent event, Emitter<ServicesState> emit) async {
     try {
       emit(state.copyWith(status: ServicesStatus.loading));
-      final List<SaveToDataBaseModel> services = await allServicesRepository.getAllServicesItemRepository();
+      List<ServicesDataBaseModel> allServices = await allServicesRepository.getAllServicesItemFromDatabaseRepository();
       emit(
         state.copyWith(
           status: ServicesStatus.success,
-          allServices: services,
+          allServices: allServices
         ),
       );
     } catch (error) {

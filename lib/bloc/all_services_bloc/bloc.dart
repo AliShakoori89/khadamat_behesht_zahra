@@ -7,7 +7,6 @@ import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
-import 'package:khadamat_behesht_zahra/repository/save_data_repository.dart';
 
 
 class AllServicesBloc extends Bloc<AllServicesItemEvent, AllServicesState> {
@@ -20,20 +19,41 @@ class AllServicesBloc extends Bloc<AllServicesItemEvent, AllServicesState> {
   void _mapGetAllServicesItemEventToState(
       GetAllServicesItemEvent event, Emitter<AllServicesState> emit) async {
 
-    final response = await allServicesRepository.getAllServicesItemRepository();
+    // try {
+    //   final result = await InternetAddress.lookup('google.com');
+    //   if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    //     print('connected');
+        final response = await allServicesRepository.getAllServicesItemFromNetworkRepository();
 
-    try {
-      emit(state.copyWith(status: AllServicesStatus.loading));
-      List<DataListModel>? allServicesItem =
-          ServicesAllItemModel.fromJson(json.decode(response.body)).data;
-      emit(
-        state.copyWith(
-          status: AllServicesStatus.success,
-          allServices: allServicesItem,
-        ),
-      );
-    } catch (error) {
-      emit(state.copyWith(status: AllServicesStatus.error));
-    }
-  }
+        try {
+          emit(state.copyWith(status: AllServicesStatus.loading));
+          List<DataListModel>? allServicesItem =
+              ServicesAllItemModel.fromJson(json.decode(response.body)).data;
+          emit(
+            state.copyWith(
+              status: AllServicesStatus.success,
+              allServices: allServicesItem,
+            ),
+          );
+        } catch (error) {
+          emit(state.copyWith(status: AllServicesStatus.error));
+        }
+      }
+    // } on SocketException catch (_) {
+    //   print('not connected');
+    //   try {
+    //     emit(state.copyWith(status: AllServicesStatus.loading));
+    //     List<DataListModel>? allServicesItem =
+    //     await allServicesRepository.getAllServicesItemFromDatabaseRepository();
+    //     emit(
+    //       state.copyWith(
+    //         status: AllServicesStatus.success,
+    //         allServices: allServicesItem,
+    //       ),
+    //     );
+    //   } catch (error) {
+    //     emit(state.copyWith(status: AllServicesStatus.error));
+    //   }
+    // }
+  // }
 }

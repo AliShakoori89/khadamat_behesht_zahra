@@ -6,7 +6,7 @@ abstract class ServiceEvent {
 }
 
 class SaveAllServiceEvent extends ServiceEvent {
-  final SaveToDataBaseModel service;
+  final ServicesDataBaseModel service;
 
   SaveAllServiceEvent(this.service);
 
