@@ -1,17 +1,18 @@
 import 'dart:async';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/event.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/state.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/event.dart';
+import 'package:is_first_run/is_first_run.dart';
+import 'package:khadamat_behesht_zahra/bloc/database_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/network_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/network_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/component/top_carousel.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/presentation/google_icons.dart';
 import 'package:khadamat_behesht_zahra/presentation/my_flutter_app_icons.dart';
 import 'package:khadamat_behesht_zahra/view/service_details.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../../bloc/database_bloc/event.dart';
+import '../../../bloc/network_bloc/event.dart';
 
 class ServicesFromNetwork extends StatefulWidget {
   const ServicesFromNetwork({Key? key}) : super(key: key);
@@ -23,48 +24,45 @@ class ServicesFromNetwork extends StatefulWidget {
 class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
 
   StreamSubscription? subscription;
+  bool? _isFirstRun;
+  final ScrollController _scrollController = ScrollController();
+  List allNames = [];
 
   @override
   void initState() {
     // TODO: implement initState
-
-    clearSharedPreferences();
+    BlocProvider.of<NetworkBloc>(context).add(const GetAllServicesItemEvent());
+    _checkFirstRun();
+    Timer.periodic(const Duration(milliseconds: 1000), (Timer timer) {
+      if (_scrollController.hasClients) {
+        _scrollDown();
+        timer.cancel();
+      }
+    });
     super.initState();
   }
 
-  void clearSharedPreferences() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  await prefs.remove('اکو');
-  await prefs.remove('مداح');
-  await prefs.remove('صندلی');
-  await prefs.remove('میز');
-  await prefs.remove('آب مبوه پاکتی');
-  await prefs.remove('سایبان');
-  await prefs.remove('چای');
-  await prefs.remove('آب معدنی');
-  await prefs.remove('نسکافه');
-  await prefs.remove('چای نبات');
-  await prefs.remove('هات چاکلت');
-  await prefs.remove('سماور آب جوش');
-  await prefs.remove('کافه میکس لیوانی هدکس');
-  await prefs.remove('کاپو چینو');
-    // await preferences.clear();
+  void _checkFirstRun() async {
+    bool ifr = await IsFirstRun.isFirstRun();
+    setState(() {
+      _isFirstRun = ifr;
+    });
+  }
+
+  void _scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration: Duration(milliseconds: 2000),
+      curve: Curves.fastOutSlowIn,
+    );
   }
 
   saveToDatabase(ServicesDataBaseModel services){
-    print('save data to database');
-    print('save data to database'+ services.name.toString());
-    BlocProvider.of<SaveServicesBloc>(context).add(SaveAllServiceEvent(services));
+    BlocProvider.of<DatabaseBloc>(context).add(SaveAllServiceEvent(services));
   }
 
   @override
   Widget build(BuildContext context) {
-
-    final allServicesBloc = BlocProvider.of<AllServicesBloc>(context);
-    allServicesBloc.add(const GetAllServicesItemEvent());
-
-    // final servicesBloc = BlocProvider.of<SaveServicesBloc>(context);
-    // servicesBloc.add(FetchServicesItemFromDatabaseEvent());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -96,21 +94,17 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
         children: [
           TopCarousel(),
           const SizedBox(height: 20,),
-          BlocBuilder<AllServicesBloc, AllServicesState>(
+          BlocBuilder<NetworkBloc, NetworkState>(
               builder: (context, state) {
                 if (state.status.isLoading) {
-                  print('1111111111111');
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (state.status.isSuccess) {
-                  print('33333333333333');
                   var item = state.allServicesFromNetwork;
-                  print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                  // print(item);
-
 
                   return item.isNotEmpty ? Expanded(
                     child: GridView.builder(
+                      controller: _scrollController,
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         gridDelegate:
@@ -123,10 +117,35 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                         itemBuilder: (BuildContext ctx, index) {
                           late ServicesDataBaseModel service = ServicesDataBaseModel();
                           service.name = item[index].name;
-                          service.imagePath =
-                          'https://ebehesht.tehran.ir:8080/api/v1/Service/item/${item[index].id}/image';
+                          if(_isFirstRun == true ){
+                            // Future.delayed(Duration(seconds: 3), (){
+                              saveToDatabase(service);
+                            // });
+                          }
+                          allNames.add(service.name);
 
-                          saveToDatabase(service);
+                          if(allNames.length == item.length+1){
+                            _isFirstRun = false;
+                          }
+
+                          print('_isFirstRun  _isFirstRun  _isFirstRun  _isFirstRun  '+_isFirstRun.toString());
+                          print('iddddddddddddddddddd:  '+item[index].id.toString());
+
+                          print('imageeeeeeee    :');
+                          print('https://ebehesht.'
+                              'tehran.ir:8080/api/v1/Service'
+                              '/item/${item[index].id}/image');
+
+                          CachedNetworkImage(
+                            imageUrl: 'https://ebehesht.'
+                            'tehran.ir:8080/api/v1/Service'
+                                '/item/${int.parse(item[index].id!)-1}/image',
+                            placeholder: (context, url) => const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) => const Icon(Icons.error),
+                          );
+
+
+
 
                           return InkWell(
                             onTap: () {
@@ -148,10 +167,10 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                                     decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
-                                            image: NetworkImage(
-                                                'https://ebehesht.tehran.ir:8080/'
+                                            image: CachedNetworkImageProvider(
+                                              'https://ebehesht.tehran.ir:8080/'
                                                     'api/v1/Service/item/'
-                                                    '${item[index].id}/image'))),
+                                                    '${int.parse(item[index].id!)-1}/image'))),
                                   ),
                                 ),
                                 Expanded(child: Text('${item[index].name}')),

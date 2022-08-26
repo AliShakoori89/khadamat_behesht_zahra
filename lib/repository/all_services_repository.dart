@@ -24,7 +24,6 @@ class ServicesRepository{
   }
 
   Future<bool> saveServicesItemRepository(ServicesDataBaseModel saveToDataBaseModel) async {
-    print('save save save save save save ');
     return await helper.saveServiceIemToDatabase(saveToDataBaseModel);
   }
 

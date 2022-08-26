@@ -1,11 +1,11 @@
 import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 
-abstract class ServiceEvent {
-  const ServiceEvent();
+abstract class DatabaseEvent {
+  const DatabaseEvent();
 }
 
-class SaveAllServiceEvent extends ServiceEvent {
+class SaveAllServiceEvent extends DatabaseEvent {
   final ServicesDataBaseModel service;
 
   SaveAllServiceEvent(this.service);
@@ -14,4 +14,4 @@ class SaveAllServiceEvent extends ServiceEvent {
   List<Object> get props => [service];
 }
 
-class FetchServicesItemFromDatabaseEvent extends ServiceEvent {}
+class FetchServicesItemFromDatabaseEvent extends DatabaseEvent {}

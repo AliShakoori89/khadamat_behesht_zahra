@@ -1,25 +1,20 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/event.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/state.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/event.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/state.dart';
-import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
+import 'package:khadamat_behesht_zahra/bloc/database_bloc/event.dart';
+import 'package:khadamat_behesht_zahra/bloc/database_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
 
 
-class SaveServicesBloc extends Bloc<ServiceEvent, ServicesState> {
+class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   ServicesRepository allServicesRepository;
 
-  SaveServicesBloc(this.allServicesRepository) : super(const ServicesState()){
+  DatabaseBloc(this.allServicesRepository) : super(const DatabaseState()){
     on<SaveAllServiceEvent>(_mapSaveServiceEventToState);
     on<FetchServicesItemFromDatabaseEvent>(_mapFetchServicesItemFromDatabaseEventToState);
   }
 
   void _mapSaveServiceEventToState(
-      SaveAllServiceEvent event, Emitter<ServicesState> emit) async {
+      SaveAllServiceEvent event, Emitter<DatabaseState> emit) async {
 
     try {
       emit(state.copyWith(status: ServicesStatus.loading));
@@ -36,7 +31,7 @@ class SaveServicesBloc extends Bloc<ServiceEvent, ServicesState> {
   }
 
   void _mapFetchServicesItemFromDatabaseEventToState(
-      FetchServicesItemFromDatabaseEvent event, Emitter<ServicesState> emit) async {
+      FetchServicesItemFromDatabaseEvent event, Emitter<DatabaseState> emit) async {
     try {
       emit(state.copyWith(status: ServicesStatus.loading));
       List<ServicesDataBaseModel> allServices = await allServicesRepository.getAllServicesItemFromDatabaseRepository();

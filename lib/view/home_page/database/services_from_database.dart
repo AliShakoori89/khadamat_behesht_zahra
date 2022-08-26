@@ -1,18 +1,18 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:typed_data';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/event.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/state.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/event.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/state.dart';
+import 'package:khadamat_behesht_zahra/bloc/database_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/database_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/component/top_carousel.dart';
-import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/presentation/google_icons.dart';
 import 'package:khadamat_behesht_zahra/presentation/my_flutter_app_icons.dart';
 import 'package:khadamat_behesht_zahra/view/service_details.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../bloc/database_bloc/event.dart';
 
 class ServicesFromDatabase extends StatefulWidget {
   const ServicesFromDatabase({Key? key}) : super(key: key);
@@ -24,6 +24,7 @@ class ServicesFromDatabase extends StatefulWidget {
 class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
 
   StreamSubscription? subscription;
+  Uint8List? bytes;
 
   @override
   void initState() {
@@ -55,7 +56,7 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
   @override
   Widget build(BuildContext context) {
 
-    final servicesBloc = BlocProvider.of<SaveServicesBloc>(context);
+    final servicesBloc = BlocProvider.of<DatabaseBloc>(context);
     servicesBloc.add(FetchServicesItemFromDatabaseEvent());
 
     return Scaffold(
@@ -88,7 +89,7 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
           children: [
             TopCarousel(),
             const SizedBox(height: 20,),
-            BlocBuilder<SaveServicesBloc, ServicesState>(
+            BlocBuilder<DatabaseBloc, DatabaseState>(
                 builder: (context, state) {
                   if (state.status.isLoading) {
                     print('1111111111111');
@@ -98,8 +99,10 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                     print('33333333333333');
                     print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
                     print(state.allServices.length);
+
                     // print(item);
                     // late ServicesDataBaseModel service = ServicesDataBaseModel();
+
 
                     return state.allServices.isNotEmpty
                         ? Expanded(
@@ -114,8 +117,13 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                               mainAxisSpacing: 10),
                           itemCount: state.allServices.length,
                           itemBuilder: (BuildContext ctx, index) {
+                            print('iddddddddddddddddddd:  '+ state.allServices[index].id.toString());
 
-                            print(state.allServices[index].imagePath!);
+                            print('imageeeeeeee    :');
+                            print('https://ebehesht.'
+                                'tehran.ir:8080/api/v1/Service'
+                                '/item/${state.allServices[index].id}/image');
+
                             return InkWell(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
@@ -132,7 +140,10 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
-                                              image: NetworkImage(state.allServices[index].imagePath!))),
+                                              image: CachedNetworkImageProvider(
+                                                  'https://ebehesht.tehran.ir:8080/'
+                                                      'api/v1/Service/item/'
+                                                      '${(state.allServices[index].id!)}/image'))),
                                     ),
                                   ),
                                   Expanded(child: Text('${state.allServices[index].name}')),

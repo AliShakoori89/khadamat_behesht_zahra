@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -13,7 +12,6 @@ class DataBaseHelper{
   static const table = 'my_table';
   static const columnId = 'id';
   static const columnName = 'name';
-  static const columnImagePath = 'imagePath';
 
 
   DataBaseHelper._privateConstructor();
@@ -35,14 +33,15 @@ class DataBaseHelper{
   Future _onCreate(Database db, int version) async {
     await db.execute('CREATE TABLE $table ('
         '$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-        '$columnName TEXT,'
-        '$columnImagePath TEXT'
+        '$columnName TEXT'
         ')'
     );
   }
 
   Future<bool> saveServiceIemToDatabase(ServicesDataBaseModel saveToDataBaseModel) async {
     var dbServicesItem = await database;
+    print('saveToDataBaseModel   saveToDataBaseModel  '+saveToDataBaseModel.name.toString());
+
     await dbServicesItem.insert (
         table, saveToDataBaseModel.toJson(),
         conflictAlgorithm: ConflictAlgorithm.replace);

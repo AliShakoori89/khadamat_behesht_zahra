@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/database_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/network_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
 import 'package:khadamat_behesht_zahra/view/home_page/database/home_page_database.dart';
 import 'package:khadamat_behesht_zahra/view/home_page/network/home_page_network.dart';
@@ -26,10 +26,10 @@ class _MyAppState extends State<MyApp> {
       providers: [
         BlocProvider(
             create: (BuildContext context) =>
-                AllServicesBloc(ServicesRepository())),
+                DatabaseBloc(ServicesRepository())),
         BlocProvider(
             create: (BuildContext context) =>
-                SaveServicesBloc(ServicesRepository())),
+                NetworkBloc(ServicesRepository())),
       ],
       child:
       const InternetWidget(

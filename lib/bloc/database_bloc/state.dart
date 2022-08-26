@@ -11,9 +11,9 @@ extension SaveServicesStatusX on ServicesStatus {
   bool get isLoading => this == ServicesStatus.loading;
 }
 
-class ServicesState extends Equatable {
+class DatabaseState extends Equatable {
 
-  const ServicesState({
+  const DatabaseState({
     this.status = ServicesStatus.initial,
     List<ServicesDataBaseModel>? allServices,
   }): allServices = allServices ?? const [];
@@ -25,11 +25,11 @@ class ServicesState extends Equatable {
   // TODO: implement props
   List<Object> get props => [status, allServices];
 
-  ServicesState copyWith({
+  DatabaseState copyWith({
     ServicesStatus? status,
     List<ServicesDataBaseModel>? allServices,
   }) {
-    return ServicesState(
+    return DatabaseState(
       status: status ?? this.status,
       allServices: allServices ?? this.allServices,
     );

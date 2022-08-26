@@ -10,9 +10,9 @@ extension AllServicesStatusX on AllServicesStatus {
   bool get isLoading => this == AllServicesStatus.loading;
 }
 
-class AllServicesState extends Equatable {
+class NetworkState extends Equatable {
 
-  const AllServicesState({
+  const NetworkState({
     this.status = AllServicesStatus.initial,
     List<DataListModel>? allServices,
   }): allServicesFromNetwork = allServices ?? const [];
@@ -24,11 +24,11 @@ class AllServicesState extends Equatable {
   // TODO: implement props
   List<Object> get props => [status, allServicesFromNetwork];
 
-  AllServicesState copyWith({
+  NetworkState copyWith({
     AllServicesStatus? status,
     List<DataListModel>? allServices
   }) {
-    return AllServicesState(
+    return NetworkState(
       status: status ?? this.status,
       allServices: allServices ?? this.allServicesFromNetwork,
     );

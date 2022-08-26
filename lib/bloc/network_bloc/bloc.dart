@@ -1,23 +1,20 @@
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/event.dart';
-import 'package:khadamat_behesht_zahra/bloc/all_services_bloc/state.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_services_bloc/state.dart';
+import 'package:khadamat_behesht_zahra/bloc/network_bloc/event.dart';
+import 'package:khadamat_behesht_zahra/bloc/network_bloc/state.dart';
 import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
-import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
 
 
-class AllServicesBloc extends Bloc<AllServicesItemEvent, AllServicesState> {
+class NetworkBloc extends Bloc<NetworkEvent, NetworkState> {
   ServicesRepository allServicesRepository;
 
-  AllServicesBloc(this.allServicesRepository) : super(const AllServicesState()){
+  NetworkBloc(this.allServicesRepository) : super(const NetworkState()){
     on<GetAllServicesItemEvent>(_mapGetAllServicesItemEventToState);
   }
 
   void _mapGetAllServicesItemEventToState(
-      GetAllServicesItemEvent event, Emitter<AllServicesState> emit) async {
+      GetAllServicesItemEvent event, Emitter<NetworkState> emit) async {
 
     // try {
     //   final result = await InternetAddress.lookup('google.com');

@@ -46,6 +46,8 @@ dependencies:
   flutter_no_internet_widget: ^0.0.6+13
   sqflite: ^2.0.3+1
   path_provider: ^2.0.11
+  cached_network_image: ^3.2.1
+  is_first_run: ^1.0.0
 
 
 dev_dependencies:
