@@ -93,7 +93,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            imagesCarouselSlider(context),
+            imagesCarouselSlider(context, id),
             const SizedBox(height: 10,),
             serviceDescription(),
             choiceServicePrice(),
@@ -105,7 +105,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 
-  Stack imagesCarouselSlider(BuildContext context) {
+  Stack imagesCarouselSlider(BuildContext context, String? id) {
     return Stack(
             children: [
               CarouselSlider(
@@ -117,10 +117,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       return Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 1.0),
-                          decoration: const BoxDecoration(
-                              color: Colors.amber
+                          decoration: BoxDecoration(
+                              color: Colors.black54,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    'https://ebehesht.tehran.ir:8080/'
+                                        'api/v1/Service/item/'
+                                        '$id/image/$i'
+                                )
+                            )
                           ),
-                          child: Text('text $i', style: const TextStyle(fontSize: 16.0),)
                       );
                     },
                   );

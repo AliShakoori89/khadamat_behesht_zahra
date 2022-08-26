@@ -124,31 +124,23 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                                 'tehran.ir:8080/api/v1/Service'
                                 '/item/${state.allServices[index].id}/image');
 
-                            return InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (context) => ServiceDetails(
-                                        id: state.allServices[index].id!.toString(),
-                                        name: state.allServices[index].name!)));
-                              },
-                              child: Column(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      width: 200,
-                                      height: 200,
-                                      decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          image: DecorationImage(
-                                              image: CachedNetworkImageProvider(
-                                                  'https://ebehesht.tehran.ir:8080/'
-                                                      'api/v1/Service/item/'
-                                                      '${(state.allServices[index].id!)}/image'))),
-                                    ),
+                            return Column(
+                              children: [
+                                Expanded(
+                                  child: Container(
+                                    width: 200,
+                                    height: 200,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: CachedNetworkImageProvider(
+                                                'https://ebehesht.tehran.ir:8080/'
+                                                    'api/v1/Service/item/'
+                                                    '${(state.allServices[index].id!)}/image'))),
                                   ),
-                                  Expanded(child: Text('${state.allServices[index].name}')),
-                                ],
-                              ),
+                                ),
+                                Expanded(child: Text('${state.allServices[index].name}')),
+                              ],
                             );
                           }),
                     )
