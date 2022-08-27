@@ -28,8 +28,10 @@ class ServicesRepository{
   }
 
   Future<dynamic> getAllServiceItemImagesRepository(int serviceId) async{
-    var item = await _apiHelper.get('/Service/item/$serviceId/images/');
-    print('getAllServiceItemImagesRepository getAllServiceItemImagesRepository'+item);
+    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+    print('/Service/item/$serviceId/images');
+    var item = await _apiHelper.get('/Service/item/$serviceId/images');
+    print('============================================== '+item.toString());
     return item;
   }
 }

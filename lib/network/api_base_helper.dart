@@ -9,6 +9,7 @@ class ApiBaseHelper {
     http.Response response = await http.get(Uri.parse(_baseUrl + url),
         headers: {"APIKey": apiKey});
 
+    print(response.body);
     print('+++++++++++++++++++++++++++++++++++++++++++++'+response.toString());
 
     return response;
