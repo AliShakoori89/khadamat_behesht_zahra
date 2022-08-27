@@ -102,6 +102,8 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                 if (state.status.isSuccess) {
                   var item = state.allServicesFromNetwork;
 
+                  print('item length :::    '+item.length.toString());
+
                   return item.isNotEmpty ? Expanded(
                     child: GridView.builder(
                       controller: _scrollController,
@@ -124,7 +126,7 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                           }
                           allNames.add(service.name);
 
-                          if(allNames.length == item.length+1){
+                          if(allNames.length == item.length){
                             _isFirstRun = false;
                           }
 
