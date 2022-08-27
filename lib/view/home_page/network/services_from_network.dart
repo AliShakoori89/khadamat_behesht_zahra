@@ -136,12 +136,12 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                           print('imageeeeeeee    :');
                           print('https://ebehesht.'
                               'tehran.ir:8080/api/v1/Service'
-                              '/item/${item[index].id}/image');
+                              '/item/${item[index].serviceId}/image');
 
                           CachedNetworkImage(
                             imageUrl: 'https://ebehesht.'
                             'tehran.ir:8080/api/v1/Service'
-                                '/item/${int.parse(item[index].id!)-1}/image',
+                                '/item/${item[index].serviceId}/image',
                             placeholder: (context, url) => const CircularProgressIndicator(),
                             errorWidget: (context, url, error) => const Icon(Icons.error),
                           );
@@ -158,7 +158,8 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                                       description: item[index].description!,
                                       minQty: item[index].minQty!,
                                       maxQty: item[index].maxQty!,
-                                      price: item[index].price!)));
+                                      price: item[index].price!,
+                                      serviceId: item[index].serviceId)));
                             },
                             child: Column(
                               children: [
@@ -172,10 +173,11 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                                             image: CachedNetworkImageProvider(
                                               'https://ebehesht.tehran.ir:8080/'
                                                     'api/v1/Service/item/'
-                                                    '${int.parse(item[index].id!)-1}/image'))),
+                                                    '${item[index].serviceId}/image'))),
                                   ),
                                 ),
-                                Expanded(child: Text('${item[index].name}')),
+                                Expanded(child: Text('${item[index].name}',
+                                style: TextStyle(fontWeight: FontWeight.w600),)),
                               ],
                             ),
                           );

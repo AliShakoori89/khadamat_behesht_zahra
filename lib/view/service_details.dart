@@ -15,6 +15,7 @@ class ServiceDetails extends StatefulWidget {
   int? minQty;
   int? maxQty;
   int? price;
+  int? serviceId;
 
 
   ServiceDetails({Key? key,
@@ -23,11 +24,12 @@ class ServiceDetails extends StatefulWidget {
     this.description,
     this.minQty,
     this.maxQty,
-    this.price}) : super(key: key);
+    this.price,
+    this.serviceId}) : super(key: key);
 
   @override
   State<ServiceDetails> createState() => _ServiceDetailsState(
-      id,name,description,minQty,maxQty,price);
+      id,name,description,minQty,maxQty,price,serviceId);
 }
 
 class _ServiceDetailsState extends State<ServiceDetails> {
@@ -38,6 +40,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   int? minQty;
   int? maxQty;
   int? price;
+  int? serviceId;
 
   final int _currentIndex=0;
   List cardList = [1,2,3,4,5];
@@ -123,7 +126,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 image: NetworkImage(
                                     'https://ebehesht.tehran.ir:8080/'
                                         'api/v1/Service/item/'
-                                        '$id/image/$i'
+                                        '$serviceId/image/$i'
                                 )
                             )
                           ),
