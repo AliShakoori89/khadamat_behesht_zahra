@@ -3,7 +3,12 @@ import 'dart:async';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:khadamat_behesht_zahra/bloc/details_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/details_bloc/event.dart';
+import 'package:khadamat_behesht_zahra/bloc/details_bloc/state.dart';
+import 'package:khadamat_behesht_zahra/model/images_of_service_model.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -43,13 +48,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   int? serviceId;
 
   final int _currentIndex=0;
-  List cardList = [1,2,3,4,5];
 
   final TextEditingController textFieldController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    BlocProvider.of<ServiceDetailsBloc>(context).add(GetServiceAllImagesEvent(serviceId!));
     loadPrice();
   }
 
@@ -84,7 +89,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     return result;
   }
 
-  _ServiceDetailsState(this.id, this.name, this.description, this.minQty, this.maxQty, this.price);
+  _ServiceDetailsState(this.id, this.name, this.description, this.minQty, this.maxQty, this.price, this.serviceId);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +101,31 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            imagesCarouselSlider(context, id),
+            BlocBuilder<ServiceDetailsBloc, ServiceDetailsState>(
+            builder: (context, state) {
+              if (state.status.isLoading) {
+                print('AAAAAA  ');
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (state.status.isSuccess) {
+                print('BBBBBB  ');
+                var service = state.allServiceImages;
+                return imagesCarouselSlider(context, service);
+              }
+              if (state.status.isError) {
+                print('CCCCC  ');
+                return const Center(
+                    child: Text('!!برتامه برای اجرا اول نیاز به اینترنت دارد',
+                        style: TextStyle(color: Colors.grey,
+                            fontWeight: FontWeight.w700,
+                            fontSize: 19)));
+              }
+              return const Center(
+                  child: Text('',
+                      style: TextStyle(color: Colors.grey,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 19)));
+            }),
             const SizedBox(height: 10,),
             serviceDescription(),
             choiceServicePrice(),
@@ -108,13 +137,13 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     );
   }
 
-  Stack imagesCarouselSlider(BuildContext context, String? id) {
+  Stack imagesCarouselSlider(BuildContext context, List<DataListOfImagesModel> service) {
     return Stack(
             children: [
               CarouselSlider(
                 options: CarouselOptions(
                     height: MediaQuery.of(context).size.height / 4),
-                items: cardList.map((i) {
+                items: service.map((i) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Container(
@@ -126,7 +155,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 image: NetworkImage(
                                     'https://ebehesht.tehran.ir:8080/'
                                         'api/v1/Service/item/'
-                                        '$serviceId/image/$i'
+                                        '$serviceId/image/${service[0].imageId}'
                                 )
                             )
                           ),
@@ -141,7 +170,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 child: Opacity(
                   opacity: 0.5,
                   child: Row(
-                    children: map<Widget>(cardList, (index, url) {
+                    children: map<Widget>(service, (index, url) {
                       return Container(
                         width: 5.0,
                         height: 5.0,

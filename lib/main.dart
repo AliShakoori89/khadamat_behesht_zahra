@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_no_internet_widget/flutter_no_internet_widget.dart';
 import 'package:khadamat_behesht_zahra/bloc/database_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/details_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/bloc/network_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/repository/all_services_repository.dart';
 import 'package:khadamat_behesht_zahra/view/home_page/database/home_page_database.dart';
@@ -30,6 +31,9 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(
             create: (BuildContext context) =>
                 NetworkBloc(ServicesRepository())),
+        BlocProvider(
+            create: (BuildContext context) =>
+                ServiceDetailsBloc(ServicesRepository())),
       ],
       child:
       const InternetWidget(

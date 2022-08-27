@@ -30,7 +30,7 @@ class NetworkState extends Equatable {
   }) {
     return NetworkState(
       status: status ?? this.status,
-      allServices: allServices ?? this.allServicesFromNetwork,
+      allServices: allServices ?? allServicesFromNetwork,
     );
   }
 }

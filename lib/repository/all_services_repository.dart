@@ -27,7 +27,9 @@ class ServicesRepository{
     return await helper.saveServiceIemToDatabase(saveToDataBaseModel);
   }
 
-  // Future<List<SaveToDataBaseModel>> getAllServicesFromDatabaseRepo() async {
-  //   return await helper.getAllMedicines();
-  // }
+  Future<dynamic> getAllServiceItemImagesRepository(int serviceId) async{
+    var item = await _apiHelper.get('/Service/item/$serviceId/images/');
+    print('getAllServiceItemImagesRepository getAllServiceItemImagesRepository'+item);
+    return item;
+  }
 }

@@ -49,20 +49,13 @@ class DataBaseHelper{
   }
 
   Future<List<ServicesDataBaseModel>> getAllMedicines() async {
-    print('111111');
     var dbServicesItem = await database;
-    print('222222');
     List listMap = await dbServicesItem
         .rawQuery('SELECT * FROM my_table');
-    print('33333');
     var listServicesDatabase = <ServicesDataBaseModel>[];
-    print('444444');
     for (Map<String, dynamic> m in listMap) {
       listServicesDatabase.add(ServicesDataBaseModel.fromJson(m));
-      print(m);
     }
-    print('____________________________________________-');
-    print(listServicesDatabase);
     return listServicesDatabase;
   }
 }
