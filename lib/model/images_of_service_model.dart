@@ -57,7 +57,7 @@ class DataListOfImagesModel{
     isDefault: json['isDefault'],
     serviceId: json["serviceId"],
     imageId: json["imageId"],
-    image: Image.fromJson(json["city"]),
+    image: Image.fromJson(json["image"]),
   );
 
   Map<String, dynamic> toJson() => {

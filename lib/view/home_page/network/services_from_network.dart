@@ -11,6 +11,7 @@ import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 import 'package:khadamat_behesht_zahra/presentation/google_icons.dart';
 import 'package:khadamat_behesht_zahra/presentation/my_flutter_app_icons.dart';
 import 'package:khadamat_behesht_zahra/view/service_details.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../bloc/database_bloc/event.dart';
 import '../../../bloc/network_bloc/event.dart';
 
@@ -39,7 +40,27 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
         timer.cancel();
       }
     });
+    clearSharedPreferences();
     super.initState();
+  }
+
+  void clearSharedPreferences() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('اکو');
+    await prefs.remove('مداح');
+    await prefs.remove('صندلی');
+    await prefs.remove('میز');
+    await prefs.remove('آب مبوه پاکتی');
+    await prefs.remove('سایبان');
+    await prefs.remove('چای');
+    await prefs.remove('آب معدنی');
+    await prefs.remove('نسکافه');
+    await prefs.remove('چای نبات');
+    await prefs.remove('هات چاکلت');
+    await prefs.remove('سماور آب جوش');
+    await prefs.remove('کافه میکس لیوانی هدکس');
+    await prefs.remove('کاپو چینو');
+    // await preferences.clear();
   }
 
   void _checkFirstRun() async {

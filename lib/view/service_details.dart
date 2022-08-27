@@ -110,6 +110,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               if (state.status.isSuccess) {
                 print('BBBBBB  ');
                 var service = state.allServiceImages;
+                var imageId = state.allServiceImages.length;
                 return imagesCarouselSlider(context, service);
               }
               if (state.status.isError) {
@@ -130,9 +131,23 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             serviceDescription(),
             choiceServicePrice(),
             minOrder(),
-            maxOrder()
+            maxOrder(),
           ],
         ),
+      ),
+      bottomSheet: SizedBox(
+        height: 50,
+        width: MediaQuery.of(context).size.width,
+        child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            primary: Colors.green
+          ),
+            onPressed: (){
+
+            },
+            child: Text(
+                'ثبت'
+            )),
       ),
     );
   }
@@ -144,8 +159,11 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 options: CarouselOptions(
                     height: MediaQuery.of(context).size.height / 4),
                 items: service.map((i) {
+                  print(i.imageId);
+                  print(i.serviceId);
                   return Builder(
-                    builder: (BuildContext context) {
+                    builder: (BuildContext context){
+                      print('jjjjjjjjjjjjj  '+service.toString());
                       return Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 1.0),
@@ -155,7 +173,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                                 image: NetworkImage(
                                     'https://ebehesht.tehran.ir:8080/'
                                         'api/v1/Service/item/'
-                                        '$serviceId/image/${service[0].imageId}'
+                                        '${i.serviceId}/image/${i.imageId}'
                                 )
                             )
                           ),

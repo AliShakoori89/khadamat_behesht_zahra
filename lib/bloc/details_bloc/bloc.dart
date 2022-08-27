@@ -16,7 +16,7 @@ class ServiceDetailsBloc extends Bloc<ServiceDetailsEvent, ServiceDetailsState> 
   void _mapGetServiceItemImagesEventToState(
       GetServiceAllImagesEvent event, Emitter<ServiceDetailsState> emit) async {
     final response =
-    await await allServicesRepository.getAllServiceItemImagesRepository(event.serviceId);
+    await allServicesRepository.getAllServiceItemImagesRepository(event.serviceId);
 
 
     try {
