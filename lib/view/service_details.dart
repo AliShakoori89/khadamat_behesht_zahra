@@ -101,32 +101,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            BlocBuilder<ServiceDetailsBloc, ServiceDetailsState>(
-            builder: (context, state) {
-              if (state.status.isLoading) {
-                print('AAAAAA  ');
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (state.status.isSuccess) {
-                print('BBBBBB  ');
-                var service = state.allServiceImages;
-                var imageId = state.allServiceImages.length;
-                return imagesCarouselSlider(context, service);
-              }
-              if (state.status.isError) {
-                print('CCCCC  ');
-                return const Center(
-                    child: Text('!!برتامه برای اجرا اول نیاز به اینترنت دارد',
-                        style: TextStyle(color: Colors.grey,
-                            fontWeight: FontWeight.w700,
-                            fontSize: 19)));
-              }
-              return const Center(
-                  child: Text('',
-                      style: TextStyle(color: Colors.grey,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 19)));
-            }),
+            carouselBlocBuilder(),
             const SizedBox(height: 10,),
             serviceDescription(),
             choiceServicePrice(),
@@ -150,6 +125,31 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             )),
       ),
     );
+  }
+
+  BlocBuilder<ServiceDetailsBloc, ServiceDetailsState> carouselBlocBuilder() {
+    return BlocBuilder<ServiceDetailsBloc, ServiceDetailsState>(
+          builder: (context, state) {
+            if (state.status.isLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (state.status.isSuccess) {
+              var service = state.allServiceImages;
+              return imagesCarouselSlider(context, service);
+            }
+            if (state.status.isError) {
+              return const Center(
+                  child: Text('!!برتامه برای اجرا اول نیاز به اینترنت دارد',
+                      style: TextStyle(color: Colors.grey,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 19)));
+            }
+            return const Center(
+                child: Text('',
+                    style: TextStyle(color: Colors.grey,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 19)));
+          });
   }
 
   Stack imagesCarouselSlider(BuildContext context, List<DataListOfImagesModel> service) {
