@@ -140,6 +140,7 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                         itemBuilder: (BuildContext ctx, index) {
                           late ServicesDataBaseModel service = ServicesDataBaseModel();
                           service.name = item[index].name;
+                          service.id = item[index].serviceId;
                           if(_isFirstRun == true ){
                             // Future.delayed(Duration(seconds: 3), (){
                               saveToDatabase(service);
