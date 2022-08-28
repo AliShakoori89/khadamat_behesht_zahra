@@ -48,28 +48,16 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   final int _currentIndex=0;
 
-  bool? _isFirstRun;
+  bool? isApply;
 
   late TextEditingController textFieldController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _checkFirstRun();
-
+    loadApplyPrice();
     BlocProvider.of<ServiceDetailsBloc>(context).add(GetServiceAllImagesEvent(serviceId!));
     loadPrice();
-  }
-
-  void _checkFirstRun() async {
-    textFieldController.text = price.toString();
-    bool ifr = await IsFirstRun.isFirstRun();
-    setState(() {
-      _isFirstRun = ifr;
-    });
-    if(_isFirstRun == false){
-      loadApplyPrice();
-    }
   }
 
   void loadPrice() async {
@@ -88,6 +76,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     final String? action = prefs.getString('${name!}apply');
     setState(() {
       if(action == null){
+        textFieldController.text = price.toString();
       }else{
         textFieldController.text = action.toString();
       }
@@ -117,7 +106,8 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     return result;
   }
 
-  _ServiceDetailsState(this.id, this.name, this.description, this.minQty, this.maxQty, this.price, this.serviceId);
+  _ServiceDetailsState(this.id, this.name, this.description,
+      this.minQty, this.maxQty, this.price, this.serviceId);
   @override
   Widget build(BuildContext context) {
 
@@ -144,12 +134,15 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.green
+            primary: Colors.green
           ),
             onPressed: (){
+            isApply = true;
+              // if(_isFirstRun == false){
+              //   loadApplyPrice();
+              // }
               writeApplyPrice(textFieldController.text);
-
-
+              // _isFirstRun = false;
               Navigator.of(context).pop();
             },
             child: const Text(
@@ -166,18 +159,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               return const Center(child: CircularProgressIndicator());
             }
             if (state.status.isSuccess) {
-
-              for(int i = 0; i < state.allServiceImages.length; i++){
-                CachedNetworkImage(
-                  imageUrl: 'https://ebehesht.tehran.ir:8080/'
-                      'api/v1/Service/item/'
-                      '${state.allServiceImages[i].serviceId}/image/${state.allServiceImages[i].imageId}',
-                  placeholder: (context, url) => const CircularProgressIndicator(),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
-                );
-
-              }
-
               var service = state.allServiceImages;
               return imagesCarouselSlider(context, service);
             }
@@ -211,11 +192,14 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           decoration: BoxDecoration(
                               color: Colors.black54,
                             image: DecorationImage(
-                                image: CachedNetworkImageProvider(
-                                    'https://ebehesht.tehran.ir:8080/'
-                                        'api/v1/Service/item/'
-                                        '${i.serviceId}/image/${i.imageId}'
+                                image: AssetImage(
+                                  'assets/image/${i.serviceId}/${i.imageId}.jpg'
                                 )
+                                // CachedNetworkImageProvider(
+                                //     'https://ebehesht.tehran.ir:8080/'
+                                //         'api/v1/Service/item/'
+                                //         '${i.serviceId}/image/${i.imageId}'
+                                // )
                             )
                           ),
                       );

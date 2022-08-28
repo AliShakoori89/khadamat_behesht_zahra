@@ -24,6 +24,7 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
 
   StreamSubscription? subscription;
   Uint8List? bytes;
+  bool isOffline = true;
 
   @override
   void initState() {
