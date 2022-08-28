@@ -19,7 +19,7 @@ class ServicesRepository{
   }
 
   Future<List<ServicesDataBaseModel>> getAllServicesItemFromDatabaseRepository() async {
-    var item = await helper.getAllMedicines();
+    var item = await helper.getAllServiceItems();
     print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   '+item.toString());
     return item;
   }
@@ -28,15 +28,20 @@ class ServicesRepository{
     return await helper.saveServiceIemToDatabase(saveToDataBaseModel);
   }
 
-  Future<bool> saveServicesItemPriceRepository(SaveNameAndPriceModel saveNameAndPriceModel) async {
-    return await helper.saveServiceIemPriceToDatabase(saveNameAndPriceModel);
-  }
-
   Future<dynamic> getAllServiceItemImagesRepository(int serviceId) async{
     print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
     print('/Service/item/$serviceId/images');
     var item = await _apiHelper.get('/Service/item/$serviceId/images/');
     print('============================================== '+item.toString());
+    return item;
+  }
+
+  Future<bool> saveServicesItemPriceRepository(SaveNameAndPriceModel saveNameAndPriceModel) async {
+    return await helper.saveServiceIemPriceToDatabase(saveNameAndPriceModel);
+  }
+
+  Future<dynamic> getServiceItemPriceRepository(int serviceId) async{
+    var item = await helper.getAllServiceItems();
     return item;
   }
 }

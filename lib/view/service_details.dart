@@ -8,7 +8,10 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:khadamat_behesht_zahra/bloc/details_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/bloc/details_bloc/event.dart';
 import 'package:khadamat_behesht_zahra/bloc/details_bloc/state.dart';
+import 'package:khadamat_behesht_zahra/bloc/save_price_bloc/bloc.dart';
+import 'package:khadamat_behesht_zahra/bloc/save_price_bloc/event.dart';
 import 'package:khadamat_behesht_zahra/model/images_of_service_model.dart';
+import 'package:khadamat_behesht_zahra/model/save_item_name_and_price_model.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -63,7 +66,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     final String? action = prefs.getString(name!);
     setState(() {
       if(action == null){
-        TextEditingController textFieldController = TextEditingController();
       }else{
         textFieldController.text = action.toString();
       }
@@ -115,13 +117,17 @@ class _ServiceDetailsState extends State<ServiceDetails> {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            primary: Colors.green
+            backgroundColor: Colors.green
           ),
             onPressed: (){
 
+              late SaveNameAndPriceModel service = SaveNameAndPriceModel();
+              service.name = name;
+              service.price = int.parse(textFieldController.text);
+              BlocProvider.of<SavePriceBloc>(context).add(SaveServicePriceEvent(service));
             },
-            child: Text(
-                'ثبت'
+            child: const Text(
+                'ثبت',style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
             )),
       ),
     );
@@ -163,7 +169,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                   print(i.serviceId);
                   return Builder(
                     builder: (BuildContext context){
-                      print('jjjjjjjjjjjjj  '+service.toString());
                       return Container(
                           width: MediaQuery.of(context).size.width,
                           margin: const EdgeInsets.symmetric(horizontal: 1.0),

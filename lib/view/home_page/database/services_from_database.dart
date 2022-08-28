@@ -83,7 +83,7 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
 
           },
           backgroundColor: Colors.green,
-          label: const Text('رزرو مراسم'),
+          label: const Text('رزرو مراسم', style: TextStyle(fontWeight: FontWeight.w700),),
         ),
         body: Column(
           children: [

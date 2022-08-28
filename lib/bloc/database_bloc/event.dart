@@ -1,4 +1,3 @@
-import 'package:khadamat_behesht_zahra/model/get_all_services_Items_model.dart';
 import 'package:khadamat_behesht_zahra/model/save_to_database_model.dart';
 
 abstract class DatabaseEvent {

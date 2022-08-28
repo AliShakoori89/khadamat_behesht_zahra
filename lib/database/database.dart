@@ -68,15 +68,7 @@ class DataBaseHelper{
     return true;
   }
 
-  Future<bool> saveServiceIemPriceToDatabase(SaveNameAndPriceModel saveNameAndPriceModel) async {
-    var dbServicesItem = await database;
-    await dbServicesItem.insert (
-        table, saveNameAndPriceModel.toJson(),
-        conflictAlgorithm: ConflictAlgorithm.replace);
-    return true;
-  }
-
-  Future<List<ServicesDataBaseModel>> getAllMedicines() async {
+  Future<List<ServicesDataBaseModel>> getAllServiceItems() async {
     var dbServicesItem = await database;
     List listMap = await dbServicesItem
         .rawQuery('SELECT * FROM my_table');
@@ -86,4 +78,24 @@ class DataBaseHelper{
     }
     return listServicesDatabase;
   }
+
+  Future<bool> saveServiceIemPriceToDatabase(SaveNameAndPriceModel saveNameAndPriceModel) async {
+    var dbServicesItem = await database;
+    await dbServicesItem.insert (
+        table, saveNameAndPriceModel.toJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+    return true;
+  }
+
+  Future<List<SaveNameAndPriceModel>> getServiceItemPrice() async {
+    var dbServicesItem = await database;
+    List listMap = await dbServicesItem
+        .rawQuery('SELECT * FROM priceTable');
+    var fetchNameAndPrice = <SaveNameAndPriceModel>[];
+    for (Map<String, dynamic> m in listMap) {
+      fetchNameAndPrice.add(SaveNameAndPriceModel.fromJson(m));
+    }
+    return fetchNameAndPrice;
+  }
+
 }
