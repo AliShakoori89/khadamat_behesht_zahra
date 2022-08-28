@@ -63,6 +63,10 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
     // await preferences.clear();
   }
 
+  void checkServicesNewNameWithOldName(){
+
+  }
+
   void _checkFirstRun() async {
     bool ifr = await IsFirstRun.isFirstRun();
     setState(() {
@@ -136,9 +140,17 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                             mainAxisSpacing: 10),
                         itemCount: item.length,
                         itemBuilder: (BuildContext ctx, index) {
+
                           late ServicesDataBaseModel service = ServicesDataBaseModel();
+
                           service.name = item[index].name;
                           service.id = item[index].serviceId;
+                          service.description = item[index].description;
+                          service.maxQty = item[index].maxQty;
+                          service.minQty = item[index].minQty;
+                          service.price = item[index].price;
+                          service.serviceId = item[index].serviceId;
+
                           if(_isFirstRun == true ){
                             // Future.delayed(Duration(seconds: 3), (){
                               saveToDatabase(service);

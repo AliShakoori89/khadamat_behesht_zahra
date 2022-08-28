@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -160,6 +161,18 @@ class _ServiceDetailsState extends State<ServiceDetails> {
               return const Center(child: CircularProgressIndicator());
             }
             if (state.status.isSuccess) {
+
+              for(int i = 0; i < state.allServiceImages.length; i++){
+                CachedNetworkImage(
+                  imageUrl: 'https://ebehesht.tehran.ir:8080/'
+                      'api/v1/Service/item/'
+                      '${state.allServiceImages[i].serviceId}/image/${state.allServiceImages[i].imageId}',
+                  placeholder: (context, url) => const CircularProgressIndicator(),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                );
+
+              }
+
               var service = state.allServiceImages;
               return imagesCarouselSlider(context, service);
             }
@@ -193,7 +206,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                           decoration: BoxDecoration(
                               color: Colors.black54,
                             image: DecorationImage(
-                                image: NetworkImage(
+                                image: CachedNetworkImageProvider(
                                     'https://ebehesht.tehran.ir:8080/'
                                         'api/v1/Service/item/'
                                         '${i.serviceId}/image/${i.imageId}'

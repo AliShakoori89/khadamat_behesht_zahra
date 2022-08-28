@@ -12,6 +12,11 @@ class DataBaseHelper{
   static const table = 'my_table';
   static const columnId = 'id';
   static const columnName = 'name';
+  static const columnDescription = 'description';
+  static const columnPrice = 'price';
+  static const columnMinQty = 'minQty';
+  static const columnMaxQty = 'maxQty';
+  static const columnServiceId = 'serviceId';
 
   DataBaseHelper._privateConstructor();
 
@@ -32,7 +37,12 @@ class DataBaseHelper{
   Future _onCreate(Database db, int version) async {
     await db.execute('CREATE TABLE $table ('
         '$columnId INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,'
-        '$columnName TEXT'
+        '$columnName TEXT,'
+        '$columnDescription TEXT,'
+        '$columnPrice INTEGER,'
+        '$columnMinQty INTEGER,'
+        '$columnMaxQty INTEGER,'
+        '$columnServiceId INTEGER'
         ')'
     );
   }
