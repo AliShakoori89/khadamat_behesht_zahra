@@ -56,6 +56,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   void initState() {
     super.initState();
     _checkFirstRun();
+
     BlocProvider.of<ServiceDetailsBloc>(context).add(GetServiceAllImagesEvent(serviceId!));
     loadPrice();
   }
@@ -66,6 +67,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     setState(() {
       _isFirstRun = ifr;
     });
+    if(_isFirstRun == false){
+      loadApplyPrice();
+    }
   }
 
   void loadPrice() async {
@@ -144,6 +148,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
           ),
             onPressed: (){
               writeApplyPrice(textFieldController.text);
+
 
               Navigator.of(context).pop();
             },
@@ -262,9 +267,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Padding choiceServicePrice() {
-    if(_isFirstRun == false){
-      loadApplyPrice();
-    }
     return Padding(
             padding: const EdgeInsets.only(right: 20, top: 50),
             child: Row(
