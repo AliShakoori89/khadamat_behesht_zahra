@@ -123,8 +123,6 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                 if (state.status.isSuccess) {
                   var item = state.allServicesFromNetwork;
 
-                  print('item length :::    '+item.length.toString());
-
                   return item.isNotEmpty ? Expanded(
                     child: GridView.builder(
                       controller: _scrollController,
@@ -152,14 +150,6 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                             _isFirstRun = false;
                           }
 
-                          print('_isFirstRun  _isFirstRun  _isFirstRun  _isFirstRun  '+_isFirstRun.toString());
-                          print('iddddddddddddddddddd:  '+item[index].id.toString());
-
-                          print('imageeeeeeee    :');
-                          print('https://ebehesht.'
-                              'tehran.ir:8080/api/v1/Service'
-                              '/item/${item[index].serviceId}/image');
-
                           CachedNetworkImage(
                             imageUrl: 'https://ebehesht.'
                             'tehran.ir:8080/api/v1/Service'
@@ -167,9 +157,6 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                             placeholder: (context, url) => const CircularProgressIndicator(),
                             errorWidget: (context, url, error) => const Icon(Icons.error),
                           );
-
-
-
 
                           return InkWell(
                             onTap: () {
@@ -181,7 +168,8 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                                       minQty: item[index].minQty!,
                                       maxQty: item[index].maxQty!,
                                       price: item[index].price!,
-                                      serviceId: item[index].serviceId)));
+                                      serviceId: item[index].serviceId,
+                                  )));
                             },
                             child: Column(
                               children: [
@@ -213,14 +201,12 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                   );
                 }
                 if (state.status.isError){
-                  print('5555555555555555');
                   return const Center(
                       child: Text('!!برتامه برای اجرا اول نیاز به اینترنت دارد',
                           style: TextStyle(color: Colors.grey,
                               fontWeight: FontWeight.w700,
                               fontSize: 19)));
                 } else {
-                  print('777777777777777777');
                   return const Center(
                       child: Text('',
                           style: TextStyle(color: Colors.grey,

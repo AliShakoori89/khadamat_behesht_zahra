@@ -12,15 +12,12 @@ class ServicesRepository{
   final DataBaseHelper helper= DataBaseHelper();
 
   Future<dynamic> getAllServicesItemFromNetworkRepository() async {
-    print('connected');
     var item = await _apiHelper.get('/Service/GetAllItems/');
-    print(item);
     return item;
   }
 
   Future<List<ServicesDataBaseModel>> getAllServicesItemFromDatabaseRepository() async {
     var item = await helper.getAllServiceItems();
-    print('^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^   '+item.toString());
     return item;
   }
 
@@ -29,19 +26,7 @@ class ServicesRepository{
   }
 
   Future<dynamic> getAllServiceItemImagesRepository(int serviceId) async{
-    print('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
-    print('/Service/item/$serviceId/images');
     var item = await _apiHelper.get('/Service/item/$serviceId/images/');
-    print('============================================== '+item.toString());
-    return item;
-  }
-
-  Future<bool> saveServicesItemPriceRepository(SaveNameAndPriceModel saveNameAndPriceModel) async {
-    return await helper.saveServiceIemPriceToDatabase(saveNameAndPriceModel);
-  }
-
-  Future<dynamic> getServiceItemPriceRepository(int serviceId) async{
-    var item = await helper.getAllServiceItems();
     return item;
   }
 }

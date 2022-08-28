@@ -18,7 +18,6 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
 
     try {
       emit(state.copyWith(status: ServicesStatus.loading));
-      print('************************************    '+event.service.name.toString());
       await allServicesRepository.saveServicesItemRepository(event.service);
       emit(
         state.copyWith(

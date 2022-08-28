@@ -1,17 +1,13 @@
-import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:is_first_run/is_first_run.dart';
 import 'package:khadamat_behesht_zahra/bloc/details_bloc/bloc.dart';
 import 'package:khadamat_behesht_zahra/bloc/details_bloc/event.dart';
 import 'package:khadamat_behesht_zahra/bloc/details_bloc/state.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_price_bloc/bloc.dart';
-import 'package:khadamat_behesht_zahra/bloc/save_price_bloc/event.dart';
 import 'package:khadamat_behesht_zahra/model/images_of_service_model.dart';
-import 'package:khadamat_behesht_zahra/model/save_item_name_and_price_model.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +20,6 @@ class ServiceDetails extends StatefulWidget {
   int? maxQty;
   int? price;
   int? serviceId;
-
 
   ServiceDetails({Key? key,
     this.id,
@@ -52,13 +47,24 @@ class _ServiceDetailsState extends State<ServiceDetails> {
 
   final int _currentIndex=0;
 
-  final TextEditingController textFieldController = TextEditingController();
+  bool? _isFirstRun;
+
+  late TextEditingController textFieldController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    _checkFirstRun();
     BlocProvider.of<ServiceDetailsBloc>(context).add(GetServiceAllImagesEvent(serviceId!));
     loadPrice();
+  }
+
+  void _checkFirstRun() async {
+    textFieldController.text = price.toString();
+    bool ifr = await IsFirstRun.isFirstRun();
+    setState(() {
+      _isFirstRun = ifr;
+    });
   }
 
   void loadPrice() async {
@@ -72,16 +78,31 @@ class _ServiceDetailsState extends State<ServiceDetails> {
     });
   }
 
+  void loadApplyPrice() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? action = prefs.getString('${name!}apply');
+    setState(() {
+      if(action == null){
+      }else{
+        textFieldController.text = action.toString();
+      }
+    });
+  }
+
   void writePrice(String content) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(name!, content);
+  }
+
+  void writeApplyPrice(String price) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('${name!}apply', price);
   }
 
   void deletePrice() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove(name!);
   }
-
 
   List<T> map<T>(List list, Function handler) {
     List<T> result = [];
@@ -94,6 +115,7 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   _ServiceDetailsState(this.id, this.name, this.description, this.minQty, this.maxQty, this.price, this.serviceId);
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
@@ -120,11 +142,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
             backgroundColor: Colors.green
           ),
             onPressed: (){
+              writeApplyPrice(textFieldController.text);
 
-              late SaveNameAndPriceModel service = SaveNameAndPriceModel();
-              service.name = name;
-              service.price = int.parse(textFieldController.text);
-              BlocProvider.of<SavePriceBloc>(context).add(SaveServicePriceEvent(service));
+              Navigator.of(context).pop();
             },
             child: const Text(
                 'ثبت',style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
@@ -165,8 +185,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                 options: CarouselOptions(
                     height: MediaQuery.of(context).size.height / 4),
                 items: service.map((i) {
-                  print(i.imageId);
-                  print(i.serviceId);
                   return Builder(
                     builder: (BuildContext context){
                       return Container(
@@ -231,6 +249,9 @@ class _ServiceDetailsState extends State<ServiceDetails> {
   }
 
   Padding choiceServicePrice() {
+    if(_isFirstRun == false){
+      loadApplyPrice();
+    }
     return Padding(
             padding: const EdgeInsets.only(right: 20, top: 50),
             child: Row(
@@ -249,7 +270,6 @@ class _ServiceDetailsState extends State<ServiceDetails> {
                       FilteringTextInputFormatter(RegExp('[0-9۰-۹.]'), allow: true)
                     ],
                     onChanged: (content){
-                      print(content);
                       writePrice(content);
                     },
                     controller: textFieldController,

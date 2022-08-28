@@ -20,13 +20,9 @@ class ServiceDetailsBloc extends Bloc<ServiceDetailsEvent, ServiceDetailsState> 
 
 
     try {
-      print('111111');
       emit(state.copyWith(status: ServiceDetailsStatus.loading));
-      print('2222222');
       List<DataListOfImagesModel>? servicesItemImages =
           ImagesOfServiceModel.fromJson(json.decode(response.body)).data;
-      print('333333333');
-      print('servicesItemImages servicesItemImages   '+ servicesItemImages.toString());
       emit(
         state.copyWith(
           status: ServiceDetailsStatus.success,
@@ -34,8 +30,6 @@ class ServiceDetailsBloc extends Bloc<ServiceDetailsEvent, ServiceDetailsState> 
         ),
       );
     } catch (error) {
-      print('44444444');
-
       emit(state.copyWith(status: ServiceDetailsStatus.error));
     }
   }
