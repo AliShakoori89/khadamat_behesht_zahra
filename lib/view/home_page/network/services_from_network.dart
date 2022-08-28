@@ -90,12 +90,14 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.white70,
       appBar: AppBar(
         centerTitle: true,
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.white24,
         title: const Text("درخواست آنلاین خدمات بهشت زهرا(س)",
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+            style: TextStyle(fontSize: 14,
+                fontWeight: FontWeight.w600,
+            color: Colors.black)),
         actions: const [
           Padding(
             padding: EdgeInsets.only(right: 10),
@@ -117,6 +119,7 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
       ),
       body: Column(
         children: [
+          const SizedBox(height: 10,),
           TopCarousel(),
           const SizedBox(height: 20,),
           BlocBuilder<NetworkBloc, NetworkState>(
@@ -135,7 +138,7 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                         gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                             maxCrossAxisExtent: 300,
-                            childAspectRatio: 2 / 2,
+                            childAspectRatio: 2 / 2.5,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 10),
                         itemCount: item.length,
@@ -199,7 +202,7 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
                                   ),
                                 ),
                                 Expanded(child: Text('${item[index].name}',
-                                style: TextStyle(fontWeight: FontWeight.w600),)),
+                                style: const TextStyle(fontWeight: FontWeight.w600),)),
                               ],
                             ),
                           );

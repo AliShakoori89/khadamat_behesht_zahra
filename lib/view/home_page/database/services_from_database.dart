@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -60,12 +59,14 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
     servicesBloc.add(FetchServicesItemFromDatabaseEvent());
 
     return Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.white70,
         appBar: AppBar(
           centerTitle: true,
-          backgroundColor: Colors.green,
+          backgroundColor: Colors.white24,
           title: const Text("درخواست آنلاین خدمات بهشت زهرا(س)",
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+              style: TextStyle(fontSize: 14,
+                  fontWeight: FontWeight.w600,
+              color: Colors.black)),
           actions: const [
             Padding(
               padding: EdgeInsets.only(right: 10),
@@ -87,22 +88,15 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
         ),
         body: Column(
           children: [
+            const SizedBox(height: 10,),
             TopCarousel(),
             const SizedBox(height: 20,),
             BlocBuilder<DatabaseBloc, DatabaseState>(
                 builder: (context, state) {
                   if (state.status.isLoading) {
-                    print('1111111111111');
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (state.status.isSuccess) {
-                    print('33333333333333');
-                    print('@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@');
-                    print(state.allServices.length);
-
-                    // print(item);
-                    // late ServicesDataBaseModel service = ServicesDataBaseModel();
-
 
                     return state.allServices.isNotEmpty
                         ? Expanded(
@@ -112,17 +106,11 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                           gridDelegate:
                           const SliverGridDelegateWithMaxCrossAxisExtent(
                               maxCrossAxisExtent: 300,
-                              childAspectRatio: 2 / 2,
+                              childAspectRatio: 2 / 2.5,
                               crossAxisSpacing: 10,
                               mainAxisSpacing: 10),
                           itemCount: state.allServices.length,
                           itemBuilder: (BuildContext ctx, index) {
-                            print('iddddddddddddddddddd:  '+ state.allServices[index].id.toString());
-
-                            print('imageeeeeeee    :');
-                            print('https://ebehesht.'
-                                'tehran.ir:8080/api/v1/Service'
-                                '/item/${state.allServices[index].id}/image');
 
                             return InkWell(
                               onTap: (){
@@ -141,8 +129,8 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                                 children: [
                                   Expanded(
                                     child: Container(
-                                      width: 200,
-                                      height: 200,
+                                      width: 300,
+                                      height: 300,
                                       decoration: BoxDecoration(
                                           shape: BoxShape.circle,
                                           image: DecorationImage(
@@ -166,14 +154,12 @@ class _ServicesFromDatabaseState extends State<ServicesFromDatabase> {
                     );
                   }
                   if (state.status.isError){
-                    print('5555555555555555');
                     return const Center(
                         child: Text('!!برتامه برای اجرا اول نیاز به اینترنت دارد',
                             style: TextStyle(color: Colors.grey,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 19)));
                   } else {
-                    print('777777777777777777');
                     return const Center(
                         child: Text('',
                             style: TextStyle(color: Colors.grey,

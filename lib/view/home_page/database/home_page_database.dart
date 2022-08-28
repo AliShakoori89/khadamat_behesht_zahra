@@ -3,7 +3,6 @@ import 'package:khadamat_behesht_zahra/presentation/services_icons.dart';
 import 'package:khadamat_behesht_zahra/view/Akhbar.dart';
 import 'package:khadamat_behesht_zahra/view/arzesh_afzoode.dart';
 import 'package:khadamat_behesht_zahra/view/home_page/database/services_from_database.dart';
-import 'package:khadamat_behesht_zahra/view/home_page/network/services_from_network.dart';
 import 'package:khadamat_behesht_zahra/view/motevafiyan.dart';
 import 'package:khadamat_behesht_zahra/view/peygiri.dart';
 
@@ -37,37 +36,42 @@ class _HomePageDatabaseState extends State<HomePageDatabase> {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                  icon: const Icon(Icons.contacts, color: Colors.grey,),
+              const BottomNavigationBarItem(
+                  icon: Icon(Icons.contacts,
+                    color: Colors.white,),
                   label: 'ارزش افزوده',
-                  backgroundColor: Colors.grey[300]
+                  backgroundColor: Colors.white10
               ),
-              BottomNavigationBarItem(
-                  icon: const Icon(Icons.content_paste_search, color: Colors.grey),
+              const BottomNavigationBarItem(
+                  icon: Icon(Icons.content_paste_search,
+                      color: Colors.white),
                   label: 'پیگیزی',
-                  backgroundColor: Colors.grey[300]
+                  backgroundColor: Colors.white10
               ),
-              BottomNavigationBarItem(
-                  icon: const Icon(ServicesIcon.layers, color: Colors.grey),
+              const BottomNavigationBarItem(
+                  icon: Icon(ServicesIcon.layers,
+                      color: Colors.white),
                   label: 'خذمات',
-                  backgroundColor: Colors.grey[300]
+                  backgroundColor: Colors.white10
               ),
               BottomNavigationBarItem(
                   icon: Image.asset("assets/image/tomb_icon.png",
                     width: 35,
-                    color: Colors.grey,),
+                    color: Colors.white,),
                   label: 'متوفیان',
-                  backgroundColor: Colors.grey[300]
+                  backgroundColor: Colors.white10
               ),
-              BottomNavigationBarItem(
-                  icon: const Icon(Icons.newspaper, color: Colors.grey),
+              const BottomNavigationBarItem(
+                  icon: Icon(Icons.newspaper,
+                      color: Colors.white),
                   label: 'اخبار',
-                  backgroundColor: Colors.grey[300]
+                  backgroundColor: Colors.white10
               ),
             ],
             type: BottomNavigationBarType.shifting,
+            backgroundColor: Colors.green,
             currentIndex: _selectedIndex,
-            selectedItemColor: Colors.black,
+            selectedItemColor: Colors.white,
             iconSize: 25,
             onTap: _onItemTapped,
             elevation: 5),
