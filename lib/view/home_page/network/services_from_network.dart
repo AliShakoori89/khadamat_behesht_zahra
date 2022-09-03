@@ -63,10 +63,6 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
     // await preferences.clear();
   }
 
-  void checkServicesNewNameWithOldName(){
-
-  }
-
   void _checkFirstRun() async {
     bool ifr = await IsFirstRun.isFirstRun();
     setState(() {
@@ -77,7 +73,7 @@ class _ServicesFromNetworkState extends State<ServicesFromNetwork> {
   void _scrollDown() {
     _scrollController.animateTo(
       _scrollController.position.maxScrollExtent,
-      duration: Duration(milliseconds: 2000),
+      duration: const Duration(milliseconds: 2000),
       curve: Curves.fastOutSlowIn,
     );
   }
